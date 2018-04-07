@@ -66,11 +66,6 @@
             </div>
             <p><input type="text" value="" prompt="登录账号" name="username"/></p>
             <p><input type="password" value="" name="password"/></p>
-
-            <p>
-                <input type="checkbox" id="rememberMe" name="rememberMe"/>
-                <label for="rememberMe">自动登录</label>
-            </p>
             <div class="clr"></div>
 
             <button class="a-login" id="login-btn" >登录</button>
