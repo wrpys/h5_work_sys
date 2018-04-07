@@ -1,6 +1,6 @@
 (function ($) {
 
-    var baseUrl = '/',         //网站的根目录地址，发布到线上时使用
+    var baseUrl = contextPath + '/',         //网站的根目录地址，发布到线上时使用
         jsBase = 'static';
 
     function isRelative(url){
