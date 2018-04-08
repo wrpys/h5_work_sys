@@ -14,15 +14,6 @@
         <result column="work_infos" property="workInfos" jdbcType="VARCHAR" />
     </resultMap>
 
-    <!--获取最新公告-->
-    <select id="getNoticeNow" parameterType="map" resultType="com.shirokumacafe.archetype.entity.ViewNotice">
-        select notice_id noticeId,notice_title noticeTitle,notice_content noticeContent,add_time addTime,add_user addUser,nick_name nickName
-        from v_notice
-        order by add_time desc
-        limit 0,1
-    </select>
-
-
     <!--出勤统计-->
     <select id="getAttendanceInfoByCId" parameterType="map" resultMap="attendanceInfoResultMap">
         SELECT v1.s_id,v1.s_no,v1.s_name,

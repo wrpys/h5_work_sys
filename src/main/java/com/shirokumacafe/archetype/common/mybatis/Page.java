@@ -21,6 +21,8 @@ public class Page<T> {
     private int limit = 10;
 
     private int totalPage ;
+    
+    private int currentPage = 1;
 
     private Boolean hasError;
 
@@ -71,6 +73,8 @@ public class Page<T> {
 
     public void setStart(int start) {
         this.start = start;
+        int currentPage = this.start / this.limit + 1;
+        this.setCurrentPage(currentPage);
     }
 
     @JsonIgnore
@@ -95,4 +99,11 @@ public class Page<T> {
         }
     }
 
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
 }

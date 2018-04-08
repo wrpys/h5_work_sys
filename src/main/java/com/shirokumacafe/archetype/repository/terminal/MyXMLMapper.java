@@ -1,7 +1,6 @@
 package com.shirokumacafe.archetype.repository.terminal;
 
 import com.shirokumacafe.archetype.entity.AttendanceWorkInfo;
-import com.shirokumacafe.archetype.entity.ViewNotice;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public interface MyXMLMapper {
-    ViewNotice getNoticeNow();
+
     List<AttendanceWorkInfo> getAttendanceInfoByCId(Map map);
     List<AttendanceWorkInfo> getWorkInfoByCId(Map map);
 
