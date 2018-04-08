@@ -38,8 +38,8 @@
 
 
 
-    <table tableName="t_student_jsp" domainObjectName="StudentJsp">
-        <generatedKey column="s_id" sqlStatement="SYBASE" identity="true"/>
+    <table tableName="t_clzss" domainObjectName="Clzss">
+        <generatedKey column="id" sqlStatement="SYBASE" identity="true"/>
         <!--<generatedKey column="RID" identity="false" sqlStatement="select SEQ_tuser.nextval from dual"></generatedKey>-->
     </table>
 
