@@ -18,14 +18,16 @@
             <div class="row">
                 <div class="control-group span8">
                     <label class="control-label"><s>*</s>答案：</label>
-                    <div class="controls">
                         <c:if test="${qType==1}">
+                         <div class="controls">
                             <input name="aAnswer" type="text" data-rules="{required:true}" class="input-normal control-text">
+                         </div>
                         </c:if>
                         <c:if test="${qType==2}">
-                            <textarea name="aAnswer" class="input-normal control-text"></textarea>
+                        <div class="controls control-row2">
+                            <textarea name="aAnswer" class="input-large" type="text"></textarea>
+                        </div>
                         </c:if>
-                    </div>
                 </div>
             </div>
         </form>
@@ -41,7 +43,7 @@
                     { title: 'ID', width: 100, dataIndex: 'aId'},
                     { title: '题目', width: 500, dataIndex: 'aAnswer'}
                 ],
-                store = Search.createStore('${ctx}/questionAnswer/answerList',{pageSize:10}),
+                store = Search.createStore('${ctx}/questionAnswer/answerList?qId=' + qId,{pageSize:10}),
                 editing = new BUI.Grid.Plugins.DialogEditing({
                     contentId : 'content',
                     triggerCls : 'btn-edit',

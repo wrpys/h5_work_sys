@@ -40,7 +40,7 @@
                     <label class="control-label">类型：</label>
                     <div class="controls">
                         <label class="radio"><input name="qType" id="qType1" type="radio" value="1" checked />单选</label>&nbsp;&nbsp;&nbsp;
-                        <label class="radio"><input name="qType" id="qType2" type="radio" alue="2"/>文本</label>
+                        <label class="radio"><input name="qType" id="qType2" type="radio" value="2"/>文本</label>
                     </div>
                 </div>
             </div>
