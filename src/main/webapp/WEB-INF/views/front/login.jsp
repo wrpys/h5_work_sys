@@ -14,21 +14,21 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/front/work/main.css"/>
 <body>
 <section>
-	<div class="order_from">
-        <div class="tips">作业系统</div>
-        <form id="form" method="post" action="<%=request.getContextPath()%>/reservationsInfoCtr/reservationsInfo" onsubmit="return validateFun();">
+	<div class="order_from" style="margin: 0rem 0 1rem 0;padding-top: 8rem;">
+        <div class="tips" style="font-size: 5rem;height: 6rem;">作业系统</div>
+        <form id="form" method="post" style="padding: 4rem;" action="${ctx}/front/login" onsubmit="return validateFun();">
             <table>
                 <tbody>
                     <tr>
-                        <td class="td_name">您的称呼:</td>
+                        <td class="td_name">学号:</td>
                         <td class="td_value">
-                            <input type="text" class="" name="userName" value="" />
+                            <input type="text" class="" name="sNo" value="" />
                         </td>
                     </tr>
                     <tr>
-                        <td class="td_name">联系手机:</td>
+                        <td class="td_name">密码:</td>
                         <td class="td_value">
-                            <input type="text" class="" value="" name="mobile"> 
+                            <input type="text" class="" value="" name="sPassword">
                         </td>
                     </tr>
                     <tr>
@@ -43,7 +43,18 @@
 </section>
 <%@include file="footer.jsp" %>
 <script type="text/javascript">
-
+    function validateFun() {
+        var sNo = $("#form input[name='sNo']").val();
+        var sPassword = $("#form input[name='sPassword']").val();
+        if(sNo == null || sNo == '') {
+            alert("请输入学号！");
+            return false;
+        }
+        if(sPassword == null || sPassword == '') {
+            alert("请输入密码！");
+            return false;
+        }
+    }
 </script>
 </body>
 </html>
