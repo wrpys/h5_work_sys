@@ -27,6 +27,16 @@ public class ClzssController {
     @Autowired
     private ClzssService clzssService;
     
+    
+    
+    /*@RequestMapping
+    public String to(Model model){
+        model.addAttribute("attendAddrs",clzssService.getAttendAddrByAaPid(0));
+        model.addAttribute("users",clzssService.getUsersByRoleId(Configs.CUSTOMER_TEACHER));
+        model.addAttribute("departments",clzssService.getParentDepartment());
+        return "course";
+    }*/
+    
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public String list(int pageNo,int pageSize) {

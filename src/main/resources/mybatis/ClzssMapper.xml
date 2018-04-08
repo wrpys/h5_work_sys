@@ -41,8 +41,8 @@
 	</delete>
   
   <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Clzss">
-    insert into t_clzss (id, grade, clzss)
-    values (#{id,jdbcType=INTEGER}, #{grade,jdbcType=VARCHAR}, #{clzss,jdbcType=VARCHAR}
+    insert into t_clzss (grade, clzss)
+    values (#{grade,jdbcType=VARCHAR}, #{clzss,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.Clzss">
     insert into t_clzss
