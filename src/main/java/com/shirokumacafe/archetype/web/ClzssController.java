@@ -2,7 +2,6 @@ package com.shirokumacafe.archetype.web;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 import com.shirokumacafe.archetype.common.Configs;
+import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Clzss;
 import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.service.ClzssService;
 import com.shirokumacafe.archetype.service.UserService;
-
 /**
  * 班级管理
  * @author CZX
@@ -43,11 +42,15 @@ public class ClzssController {
     
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public String list(int pageNo,int pageSize) {
-    	PageHelper.startPage(pageNo, pageSize);
+    public Page<Clzss> list(Clzss clzss,Page<Clzss> page) {
+    	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getCurrentPage(), page.getLimit());
     	List<Clzss> clzssList = clzssService.findAll();
-        return Responses.writeJson(clzssList);
+    	page.setRows(clzssList);
+        page.setResults((int)pageHelper.getTotal());
+        return page;
     }
+    
+    
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     @ResponseBody
