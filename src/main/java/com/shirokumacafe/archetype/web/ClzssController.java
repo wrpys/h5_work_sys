@@ -1,19 +1,24 @@
 package com.shirokumacafe.archetype.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
+import com.shirokumacafe.archetype.common.Configs;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Clzss;
+import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.service.ClzssService;
+import com.shirokumacafe.archetype.service.UserService;
 
 /**
  * 班级管理
@@ -27,15 +32,16 @@ public class ClzssController {
     @Autowired
     private ClzssService clzssService;
     
+    @Autowired
+    private UserService userService;
     
-    
-    /*@RequestMapping
+    @RequestMapping
     public String to(Model model){
-        model.addAttribute("attendAddrs",clzssService.getAttendAddrByAaPid(0));
-        model.addAttribute("users",clzssService.getUsersByRoleId(Configs.CUSTOMER_TEACHER));
-        model.addAttribute("departments",clzssService.getParentDepartment());
-        return "course";
-    }*/
+    	List<User> users = userService.getUsersByRoleId(Configs.CUSTOMER_TEACHER);
+    	users.addAll(userService.getUsersByRoleId(Configs.CUSTOMER_AMIN));
+        model.addAttribute("users",users);
+        return "clzss";
+    }
     
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
