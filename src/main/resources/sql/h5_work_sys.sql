@@ -688,3 +688,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 -- ----------------------------
 DROP VIEW IF EXISTS `v_user`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_user` AS select `t1`.`user_id` AS `user_id`,`t1`.`login_name` AS `login_name`,`t1`.`nick_name` AS `nick_name`,`t1`.`password` AS `password`,`t1`.`salt` AS `salt`,`t1`.`user_role` AS `user_role`,`t1`.`state` AS `state`,`t1`.`create_id` AS `create_id`,`t1`.`create_time` AS `create_time`,`t2`.`role_name` AS `role_name`,`t2`.`role_code` AS `role_code`,`t3`.`login_name` AS `create_name` from ((`t_user` `t1` left join `t_role` `t2` on((`t1`.`user_role` = `t2`.`role_id`))) left join `t_user` `t3` on((`t1`.`create_id` = `t3`.`user_id`))) ;
+
+--20180408 王荣坡
+DROP VIEW IF EXISTS `v_notice`;
+DROP VIEW IF EXISTS `v_news`;
+DROP VIEW IF EXISTS `v_message`;
+DROP TABLE IF EXISTS `t_student_jsp`;
+DROP TABLE IF EXISTS `t_notice`;
+DROP TABLE IF EXISTS `t_news`;
+DROP TABLE IF EXISTS `t_message`;
