@@ -43,7 +43,7 @@ public class ClzssController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public Page<Clzss> list(Clzss clzss,Page<Clzss> page) {
-    	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getCurrentPage(), page.getLimit());
+    	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
     	List<Clzss> clzssList = clzssService.findAll();
     	page.setRows(clzssList);
         page.setResults((int)pageHelper.getTotal());

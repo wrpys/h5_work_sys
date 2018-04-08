@@ -27,7 +27,7 @@ public class QuestionAnswerService {
     private AnswerMapper answerMapper;
 
     public Page<Question> questionPage(Question question, Page page) {
-        com.github.pagehelper.Page pageHelper = PageHelper.startPage(page.getCurrentPage(), page.getLimit());
+        com.github.pagehelper.Page pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
         List<Question> questionList = questionMapper.selectByParams(question);
         page.setRows(questionList);
         page.setResults(Integer.valueOf(String.valueOf(pageHelper.getTotal())));
