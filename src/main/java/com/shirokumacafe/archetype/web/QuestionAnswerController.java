@@ -7,6 +7,7 @@ import com.shirokumacafe.archetype.entity.Question;
 import com.shirokumacafe.archetype.service.QuestionAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -58,7 +59,9 @@ public class QuestionAnswerController {
     }
 
     @RequestMapping("toAnswer")
-    public String toAnswer() {
+    public String toAnswer(Model model, Integer qId, Integer qType) {
+        model.addAttribute("qId", qId);
+        model.addAttribute("qType", qType);
         return "answer";
     }
 
