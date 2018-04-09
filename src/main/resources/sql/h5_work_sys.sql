@@ -771,7 +771,7 @@ CREATE TABLE `t_work` (
   `clzss_id` int(11) DEFAULT NULL,
   `w_work_name` varchar(50) DEFAULT NULL,
   `w_add_time` datetime DEFAULT NULL,
-  `w_work_equirement` varchar(255) DEFAULT NULL,
+  `w_work_requirement` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`w_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
