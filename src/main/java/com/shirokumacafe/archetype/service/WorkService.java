@@ -1,18 +1,17 @@
 package com.shirokumacafe.archetype.service;
 
-import java.util.Date;
-import java.util.List;
-
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.Work;
+import com.shirokumacafe.archetype.entity.WorkInfo;
+import com.shirokumacafe.archetype.repository.StudentMapper;
+import com.shirokumacafe.archetype.repository.terminal.WorkInfoMapper;
+import com.shirokumacafe.archetype.repository.terminal.WorkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.Work;
-import com.shirokumacafe.archetype.entity.WorkInfo;
-import com.shirokumacafe.archetype.repository.terminal.StuMapper;
-import com.shirokumacafe.archetype.repository.terminal.WorkInfoMapper;
-import com.shirokumacafe.archetype.repository.terminal.WorkMapper;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 作业管理：出作业题，查看作业结果，统计分析作业情况
@@ -30,7 +29,7 @@ public class WorkService {
     private WorkInfoMapper workInfoMapper;
     
     @Autowired
-    private StuMapper stuMapper;
+    private StudentMapper studentMapper;
     
     /**
      * 添加作业
@@ -71,83 +70,29 @@ public class WorkService {
     /**
      * 根据作业信息ID和studen_id获取
      * @author CZX
-     * @param wiId
+     * @param workInfo
      * @return
      */
     public WorkInfo getWorkInfoByWiIdAndStuId(WorkInfo workInfo){
         return workInfoMapper.getWorkInfoByWiIdAndStuId(workInfo);
     }
     
-    
 	public List<Student> getWorkAnalysis(Work work) {
-		List<Student> stuList = stuMapper.getWorkAnalysis(work);
-		return stuList;
-	}
-
-    
-//-----------------------------------------------------------------------------------------------------------------------------------    
-    
-    /*********前台*********************************************************/
-
-    /**
-     *作业提交详情
-     * @param wId
-     * @param sId
-     * @return
-     */
-    /*public WorkInfo getWorkInfoByWId(Integer wId,Integer sId){
-        WorkInfoExample example = new WorkInfoExample();
-        WorkInfoExample.Criteria criteria = example.createCriteria();
-        criteria.andWIdEqualTo(wId);
-        criteria.andSIdEqualTo(sId);
-        List<WorkInfo> workInfos = workInfoMapper.selectByExample(example);
-        if(workInfos!=null&&workInfos.size()>0){
-            return workInfos.get(0);
-        }
+//        List<Student> stuList = studentMapper.getWorkAnalysis(work);
+//        return stuList;
         return null;
     }
-    
-
-    *//**
-     * 获取提交作业的学生
-     * @param wId
-     * @param sIds
+    /**
+     * 获取所有要做作业的学生列表信息:clzssId来获取所有应该提交的studentId
+     * @author CZX
+     * @param work
      * @return
-     *//*
-    public List<WorkInfo> getWorkInfoByWIdInSId(Integer wId,List<Integer> sIds){
-        WorkInfoExample example = new WorkInfoExample();
-        WorkInfoExample.Criteria criteria = example.createCriteria();
-        criteria.andWIdEqualTo(wId);
-        criteria.andSIdIn(sIds);
-        return workInfoMapper.selectByExample(example);
-    }
-
-    *//**
-     *提交作业信息
-     * @param workInfo
-     *//*
-    public void addWorkInfo(WorkInfo workInfo){
-        workInfo.setWiAddTime(new Date());
-        workInfoMapper.insert(workInfo);
-    }
-
-    *//**
-     * 修改作业信息
-     * @param workInfo
-     *//*
-    public void updateWorkInfo(WorkInfo workInfo){
-        workInfoMapper.updateByPrimaryKeySelective(workInfo);
-    }
-
-    
-
-    *//**
-     * 根据作业信息ID获取
-     * @param wiId
-     * @return
-     *//*
-    public WorkInfo getWorkInfoByWiId(Integer wiId){
-        return workInfoMapper.selectByPrimaryKey(wiId);
-    }*/
+     */
+	public List<Student> getAllToDoWorkList(Work work) {
+        Student student = new Student();
+        student.setClzssId(work.getClzssId());
+		List<Student> stuList = studentMapper.selectByParams(student);
+		return stuList;
+	}
 
 }

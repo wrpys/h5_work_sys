@@ -24,27 +24,15 @@
                     <input type="text" class="control-text" name="sName">
                 </div>
             </div>
+
             <div class="control-group span8">
-                <label class="control-label">性别：</label>
-                <div class="controls">
-                    <select name="sSex">
-                        <option value="">请选择</option>
-                        <option value="0">男</option>
-                        <option value="1">女</option>
-                    </select>
-                </div>
-            </div>
-            <div class="control-group span8">
-                <label class="control-label">专业：</label>
+                <label class="control-label">班级：</label>
                 <div class="controls bui-form-group-select">
-                    <select class="input-small" onchange="getChild(this,1);">
-                        <option value="" selected="selected">系别</option>
-                        <c:forEach items="${departments}" var="department">
-                            <option value="${department.dId}">${department.dName}</option>
+                    <select class="input-small" name="clzssId">
+                        <option value="" selected="selected">请选择</option>
+                        <c:forEach items="${clzssList}" var="clzss">
+                            <option value="${clzss.id}">${clzss.grade}-${clzss.clzss}</option>
                         </c:forEach>
-                    </select>&nbsp;&nbsp;
-                    <select class="input-small" value="" name="dId" id="dId2">
-                        <option value="" selected="selected">专业</option>
                     </select>
                 </div>
             </div>
@@ -53,17 +41,7 @@
             </div>
         </div>
     </form>
-    <%--xls文件导入--%>
-    <div class="row">
-        <input type="hidden" id="excel_fileName" value="" />
-        <span style="margin-left: 20px;">通过xls文件导入:
-            <button class="button button-small" id="showXls">xls文件模板</button>
-            <iframe frameborder="0" width="62" height="24" style="position: relative;top: 7px;" scrolling="no" class="iframe-excel-upload"
-                    src="${ctx}/static/excelUpload/jsp/uploadExcel.jsp"></iframe>
-            <span id="excel_realName"></span>
-            <button class="button button-small importBtn" onclick="xlsImport();">确认导入</button>
-        </span>
-    </div>
+
     <div class="search-grid-container">
         <div id="grid"></div>
     </div>
@@ -98,89 +76,32 @@
             </div>
             <div class="row">
                 <div class="control-group span8">
-                    <label class="control-label"><s>*</s>专业：</label>
-                    <div class="controls bui-form-group-select">
-                        <select class="input-small" id="dPid" onchange="getChild(this,2);">
-                            <option value="" selected="selected">系别</option>
-                            <c:forEach items="${departments}" var="department">
-                                <option value="${department.dId}">${department.dName}</option>
-                            </c:forEach>
-                        </select>&nbsp;&nbsp;
-                        <select class="input-small" value="" name="dId" id="dId" data-rules="{required:true}">
-                            <option value="" selected="selected">专业</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="control-group span8">
-                    <label class="control-label"><s>*</s>年级：</label>
-                    <div class="controls">
-                        <input name="grade" type="text" data-rules="{required:true}" class="input-normal control-text">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="control-group span8">
                     <label class="control-label"><s>*</s>班级：</label>
-                    <div class="controls">
-                        <input name="sClass" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    <div class="controls bui-form-group-select">
+                        <select class="input-small" name="clzssId" id="clzssId" >
+                            <option value="" selected="selected">请选择</option>
+                            <c:forEach items="${clzssList}" var="clzss">
+                                <option value="${clzss.id}">${clzss.grade}-${clzss.clzss}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 
-    <%--学生xls模板--%>
-    <div id="J_StudentContent" class="hide">
-            <img src="${ctx}/img/merchandise/origonal/studentTemp.png" width="450" height="100" style="width: 450px;height: 100px;max-width: 450px;max-height: 100px;"/>
-    </div>
-
 </div>
 <br><br><br><br>
 <script type="text/javascript">
-
-//上传文件的回显,显示导入按钮
-function displayFileName(excel_fileName,excel_realName){
-    $('#excel_realName').html("文件： "+excel_realName);
-    $('#excel_fileName').val(excel_fileName);
-    $('.importBtn').show(); //如果有xls导入的功能
-}
-
-//导入xls数据到数据库 (如果需要将xls数据导入到数据库)
-function xlsImport(){
-    var data = {
-        excel_fileName : $('#excel_fileName').val()
-    };
-    $.ajax({
-        url : '${ctx}/student/importStudet',
-        type:'post',
-        dataType : 'json',
-        data : data,
-        success : function(data){
-            $('#excel_realName').html("");
-            $('#excel_fileName').val("");
-            $('.importBtn').hide(); //如果有xls导入的功能
-            if(data.success){ //导入成功
-                searchTemp.load();
-            }else{ //导入失败
-                BUI.Message.Alert(data.msg,'error');
-            }
-        }
-    });
-
-}
-    var searchTemp;
     BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/overlay'],function (Search,List,Picker,Select,Overlay) {
         var
                 enumSex = {"true":"女","false":"男"},
                 columns = [
                     { title: '学号', width: 150, dataIndex: 'sNo'},
-                    { title: '姓名', width: 100, dataIndex: 'sName'},
+                    { title: '姓名', width: 150, dataIndex: 'sName'},
                     { title: '性别', width: 100, dataIndex: 'sSex',renderer:BUI.Grid.Format.enumRenderer(enumSex)},
-                    { title: '专业', width: 100, dataIndex: 'dName'},
                     { title: '年级', width: 100, dataIndex: 'grade'},
-                    { title: '班级', width: 100, dataIndex: 'sClass'}
+                    { title: '班级', width: 100, dataIndex: 'clzss'}
                 ],
                 store = Search.createStore('${ctx}/student/list',{pageSize:10}),
                 editing = new BUI.Grid.Plugins.DialogEditing({
@@ -220,13 +141,6 @@ function xlsImport(){
                                     'click' : delFunction
                                 }
                             }
-//                            ,{
-//                                btnCls: 'button button-small',
-//                                text: '<i class="icon-remove"></i>启用/禁用',
-//                                listeners : {
-//                                    'click' : changeFunction
-//                                }
-//                            }
                             ,{
                                 btnCls: 'button button-small',
                                 text: '<i class="icon-repeat"></i>重置密码',
@@ -244,7 +158,6 @@ function xlsImport(){
                 }),
                 grid = search.get('grid');
         grid.set("emptyDataTpl",'<div class="centered"><img alt="Crying" src="${ctx}/img/merchandise/origonal/no_pic.png"><h2>没有数据哦</h2></div>');
-        searchTemp = search;
         editing.on("editorshow",function(ev){
             var record = editing.get('record');
         })
@@ -259,12 +172,7 @@ function xlsImport(){
                 BUI.Message.Alert("请选中一条记录！");
                 return;
             }
-
             editing.edit(selections[0]);
-            $("#dPid").val(selections[0].dPid);
-            getChild($("#dPid option[value="+selections[0].dPid+"]"),2);
-            $('#dId').val(selections[0].dId);
-            console.log(selections[0])
             if(selections[0].sSex==false){
                 $("#sSex1").prop("checked",true);
             }else{
@@ -275,17 +183,13 @@ function xlsImport(){
         function delFunction(){
             var selections = grid.getSelection();
             if(selections.length>=1){
-                var ids = [];
-                BUI.each(selections,function(item){
-                    ids.push(item.sId);
-                });
-                if(ids.length){
+                if(selections.length){
                     BUI.Message.Confirm('确认要删除选中的记录么？',function(){
                         $.ajax({
                             url : '${ctx}/student/delete',
                             type:'post',
                             dataType : 'json',
-                            data : {ids : ids.join(',')},
+                            data : {sId : selections[0].sId},
                             success : function(data){
                                 if(data.success){ //删除成功
                                     search.load();
@@ -297,52 +201,19 @@ function xlsImport(){
                     },'question');
                 }
             }else{
-                BUI.Message.Alert("未选中任何记录！");
+                BUI.Message.Alert("请选择一条记录！");
             }
         }
 
-        <%--function changeFunction(){--%>
-            <%--var selections = grid.getSelection();--%>
-            <%--if(selections.length==1){--%>
-                <%--var selected = selections[0];--%>
-                <%--var confirmStr = "确认要启用该用户？";--%>
-                <%--if(selected.state==1){--%>
-                    <%--confirmStr = "确认要禁用该用户？";--%>
-                <%--}--%>
-                <%--BUI.Message.Confirm(confirmStr,function(){--%>
-                    <%--$.ajax({--%>
-                        <%--url : '${ctx}/student/changeState',--%>
-                        <%--type:'post',--%>
-                        <%--dataType : 'json',--%>
-                        <%--data : selected,--%>
-                        <%--success : function(data){--%>
-                            <%--if(data.success){--%>
-                                <%--search.load();--%>
-                                <%--BUI.Message.Alert('修改成功！');--%>
-                            <%--}else{--%>
-                                <%--BUI.Message.Alert('修改失败！');--%>
-                            <%--}--%>
-                        <%--}--%>
-                    <%--});--%>
-                <%--},'question');--%>
-            <%--}else{--%>
-                <%--BUI.Message.Alert("请选中一条记录！");--%>
-            <%--}--%>
-        <%--}--%>
-
         function resetFunction(){
             var selections = grid.getSelection();
-            var ids = [];
-            BUI.each(selections,function(item){
-                ids.push(item.sId);
-            });
-            if(ids.length){
+            if(selections.length == 1){
                 BUI.Message.Confirm('确认要重置密码吗？',function(){
                     $.ajax({
                         url : '${ctx}/student/resetPassword',
                         type:'post',
                         dataType : 'json',
-                        data : {ids : ids.join(',')},
+                        data : {sId : selections[0].sId},
                         success : function(data){
                             if(data.success){
                                 BUI.Message.Alert('重置成功！');
@@ -352,6 +223,8 @@ function xlsImport(){
                         }
                     });
                 },'question');
+            }else{
+                BUI.Message.Alert("请选择一条记录！");
             }
         }
         function submit(record,editor){
@@ -372,57 +245,7 @@ function xlsImport(){
                 }
             });
         }
-
-
-
-        //xls模板
-        var studentDialog;
-        function createStudentDialog(){
-            return new Overlay.Dialog({
-                title:'xls模板',
-                width:480,
-                height:160,
-                contentId:'J_StudentContent',
-                success:function () {
-                    this.close();
-                }
-            });
-        }
-        //显示
-        $('#showXls').click(function(){
-            if(!studentDialog){
-                studentDialog = createStudentDialog();
-            }
-            studentDialog.show();
-        });
-
-
     });//seajs end
-
-    //系别专业级联
-    function getChild(obj,i){
-        var dPid = $(obj).val();
-        if(dPid==null||dPid==''){
-            $("#dId").empty().html('<option value="" selected="selected">专业</option>');
-            return ;
-        }
-        $.ajax({
-            url : '${ctx}/department/getDepartmentByDPid',
-            async: false,
-            dataType : 'json',
-            type:'post',
-            data : {dPid:dPid},
-            success : function(data){
-                var seleteHtml = '<option value="" selected="selected">专业</option>';
-                $.each(data,function(i,value){
-                    console.log(value)
-                    seleteHtml += '<option value="'+value.dId+'">'+value.dName+'</option>';
-                })
-                if(i==1){$("#dId2").empty().html(seleteHtml);
-                }else if(i==2){$("#dId").empty().html(seleteHtml); }
-            }
-        });
-    }
 
 </script>
 <!-- script end -->

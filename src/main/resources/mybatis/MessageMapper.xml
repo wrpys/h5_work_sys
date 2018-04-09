@@ -159,7 +159,7 @@
         and t4.w_work_name LIKE CONCAT('%',#{wWorkName},'%')
       </if>
       <if test="teacherId!=null">
-        t4.user_tch_id=#{teacherId}
+        and t4.user_tch_id=#{teacherId}
       </if>
     </where>
   </select>

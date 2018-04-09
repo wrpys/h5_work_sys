@@ -15,13 +15,7 @@ public class Student {
 
     private Boolean sSex;
 
-    private Integer dId;
-
     private Integer clzssId;
-
-    private Integer grade;
-
-    private String sClass;
 
     public Integer getsId() {
         return sId;
@@ -79,35 +73,11 @@ public class Student {
         this.sSex = sSex;
     }
 
-    public Integer getdId() {
-        return dId;
-    }
-
-    public void setdId(Integer dId) {
-        this.dId = dId;
-    }
-
     public Integer getClzssId() {
         return clzssId;
     }
 
     public void setClzssId(Integer clzssId) {
         this.clzssId = clzssId;
-    }
-
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
-
-    public String getsClass() {
-        return sClass;
-    }
-
-    public void setsClass(String sClass) {
-        this.sClass = sClass == null ? null : sClass.trim();
     }
 }
