@@ -75,10 +75,9 @@ public class MessageController {
 
     @RequestMapping(value = "replyDiscuss", method = RequestMethod.POST)
     @ResponseBody
-    public Map replyDiscuss(Message message) {
+    public String replyDiscuss(Message message) {
         message.setMsgType(MessageService.MSG_TYPE_DISCUSS);
-        messageService.addMessage(message);
-        return Responses.writeSuccess();
+        return Responses.writeJson(messageService.addMessage(message));
     }
 
 /***********************参与讨论 end************************************/

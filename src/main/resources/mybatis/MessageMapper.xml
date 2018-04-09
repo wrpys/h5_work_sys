@@ -32,7 +32,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{wId,jdbcType=INTEGER}, #{operRole,jdbcType=INTEGER}, 
       #{operId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.Message" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="msgId" parameterType="com.shirokumacafe.archetype.entity.Message" >
     insert into t_message
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="msgId != null" >

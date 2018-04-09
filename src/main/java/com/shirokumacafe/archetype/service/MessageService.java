@@ -45,14 +45,32 @@ public class MessageService {
     @Autowired
     private Users sessionUsers;
 
-    public void addMessage(Message message) {
+    public MessageExt addMessage(Message message) {
+        String operRoleName = "";
+        String operName = "";
         if (OPER_ROLE_TEACHER.intValue() == message.getOperRole().intValue()) {
             message.setOperId(sessionUsers.getCurrentUser().getUserId());
+            operRoleName = "老师";
+            operName = sessionUsers.getCurrentUser().getNickName();
         } else if (OPER_ROLE_STUDENT.intValue() == message.getOperRole().intValue()) {
             message.setOperId(sessionUsers.getStudent().getsId());
+            operRoleName = "学生";
+            operName = sessionUsers.getStudent().getsName();
         }
         message.setCreateTime(new Date());
         messageMapper.insertSelective(message);
+        MessageExt messageExt = new MessageExt();
+        messageExt.setMsgId(message.getMsgId());
+        messageExt.setMsgPid(message.getMsgPid());
+        messageExt.setMsgType(message.getMsgType());
+        messageExt.setOperRole(message.getOperRole());
+        messageExt.setOperId(message.getOperId());
+        messageExt.setwId(message.getwId());
+        messageExt.setMsgContent(message.getMsgContent());
+        messageExt.setCreateTime(message.getCreateTime());
+        messageExt.setOperRoleName(operRoleName);
+        messageExt.setOperName(operName);
+        return messageExt;
     }
 
     public Page<QuestionMessage> questionMessagePage(QuestionMessage questionMessage, Page page) {
