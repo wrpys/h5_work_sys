@@ -126,13 +126,38 @@
     where msg_id = #{msgId,jdbcType=INTEGER}
   </update>
 
+  <select id="selectMessageExtByParams" resultType="com.shirokumacafe.archetype.entity.MessageExt" >
+    select t.msg_id as msgId,t.msg_pid as msgPid,t.msg_type as msgType,t.msg_content as msgContent,
+            t.create_time as createTime,t.w_id as wId,t.oper_role as operRole, t.oper_id as operId
+    from t_message t
+    <where>
+      <if test="wId!=null">
+        and t.w_id=#{wId}
+      </if>
+      <if test="msgPid!=null">
+        and t.msg_pid=#{msgPid}
+      </if>
+      <if test="msgType!=null">
+        and t.msg_type=#{msgType}
+      </if>
+    </where>
+  </select>
+
   <select id="selectMessageTeacherExtByParams" resultType="com.shirokumacafe.archetype.entity.MessageExt" >
     select t.msg_id as msgId,t.msg_pid as msgPid,t.msg_type as msgType,t.msg_content as msgContent,
             t.create_time as createTime,t.w_id as wId,t.oper_role as operRole,'老师' as  operRoleName, t.oper_id as operId,t1.nick_name as operName
     from t_message t
     LEFT JOIN t_user t1 on t.oper_id=t1.user_id
     <where>
-      <if test=""></if>
+      <if test="wId!=null">
+        and t.w_id=#{wId}
+      </if>
+      <if test="msgPid!=null">
+        and t.msg_pid=#{msgPid}
+      </if>
+      <if test="msgType!=null">
+        and t.msg_type=#{msgType}
+      </if>
     </where>
   </select>
 
@@ -141,6 +166,17 @@
             t.create_time as createTime,t.w_id as wId,t.oper_role as operRole,'学生' as  operRoleName, t.oper_id as operId,t1.s_name as operName
     from t_message t
     LEFT JOIN t_student t1 on t.oper_id=t1.s_id
+    <where>
+      <if test="wId!=null">
+        and t.w_id=#{wId}
+      </if>
+      <if test="msgPid!=null">
+        and t.msg_pid=#{msgPid}
+      </if>
+      <if test="msgType!=null">
+        and t.msg_type=#{msgType}
+      </if>
+    </where>
   </select>
 
   <select id="selectQuestionMessageByParams" resultType="com.shirokumacafe.archetype.entity.QuestionMessage">
@@ -160,6 +196,9 @@
       </if>
       <if test="teacherId!=null">
         and t4.user_tch_id=#{teacherId}
+      </if>
+      <if test="wId!=null">
+        and t4.w_id=#{wId}
       </if>
     </where>
   </select>

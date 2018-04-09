@@ -6,10 +6,15 @@ import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.entity.MessageExt;
 import com.shirokumacafe.archetype.entity.QuestionMessage;
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.repository.MessageMapper;
+import com.shirokumacafe.archetype.repository.StudentMapper;
+import com.shirokumacafe.archetype.repository.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -21,23 +26,29 @@ import java.util.List;
 @Transactional
 public class MessageService {
 
+    public static final Integer DEFAULT_PARENT_ID = 0;
+
     // 消息类型
     public static final Integer MSG_TYPE_QUESTION = 1;
     public static final Integer MSG_TYPE_DISCUSS = 2;
 
     // 消息发送者的角色
-    public static final Integer OPER_ROLE_TEACHER = 1;
-    public static final Integer OPER_ROLE_STUDENT = 2;
+    public static final Integer OPER_ROLE_TEACHER = 2;
+    public static final Integer OPER_ROLE_STUDENT = 1;
 
     @Autowired
     private MessageMapper messageMapper;
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
     private Users sessionUsers;
 
     public void addMessage(Message message) {
-        if (OPER_ROLE_TEACHER == message.getOperRole().intValue()) {
+        if (OPER_ROLE_TEACHER.intValue() == message.getOperRole().intValue()) {
             message.setOperId(sessionUsers.getCurrentUser().getUserId());
-        } else if (OPER_ROLE_STUDENT == message.getOperRole().intValue()) {
+        } else if (OPER_ROLE_STUDENT.intValue() == message.getOperRole().intValue()) {
             message.setOperId(sessionUsers.getStudent().getsId());
         }
         message.setCreateTime(new Date());
@@ -53,18 +64,44 @@ public class MessageService {
         return page;
     }
 
-    public Page<MessageExt> messagePage(MessageExt messageExt, Page page) {
-        com.github.pagehelper.Page pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
-        List<MessageExt> list = null;
-        if (OPER_ROLE_TEACHER == messageExt.getOperRole().intValue()) {
-            list = messageMapper.selectMessageTeacherExtByParams(messageExt);
-        } else if (OPER_ROLE_STUDENT == messageExt.getOperRole().intValue()) {
-            list = messageMapper.selectMessageStudentExtByParams(messageExt);
+    /**
+     * 构造讨论列表
+     *
+     * @param messageExt
+     * @return
+     */
+    public List<MessageExt> findDiscussMessage(MessageExt messageExt) {
+        messageExt.setMsgType(MSG_TYPE_DISCUSS);
+        messageExt.setMsgPid(DEFAULT_PARENT_ID);
+        List<MessageExt> discussMessageList = messageMapper.selectMessageStudentExtByParams(messageExt);
+        if (!CollectionUtils.isEmpty(discussMessageList)) {
+            for (int i = 0, len = discussMessageList.size(); i < len; i++) {
+                this.buildDiscussMessage(discussMessageList.get(i));
+            }
         }
-        page.setRows(list);
-        page.setResults(Integer.valueOf(String.valueOf(pageHelper.getTotal())));
-        return page;
+        return discussMessageList;
     }
 
+    private void buildDiscussMessage(MessageExt messageExt) {
+        MessageExt params = new MessageExt();
+        params.setwId(messageExt.getwId());
+        params.setMsgType(MSG_TYPE_DISCUSS);
+        params.setMsgPid(messageExt.getMsgId());
+        MessageExt m = messageMapper.selectMessageExtByParams(params);
+        if (m == null) {
+            return;
+        }
+        if (OPER_ROLE_TEACHER.intValue() == m.getOperRole().intValue()) {
+            m.setOperRoleName("老师");
+            User user = userMapper.selectByPrimaryKey(m.getOperId());
+            m.setOperName(user.getNickName());
+        } else if (OPER_ROLE_STUDENT.intValue() == m.getOperRole().intValue()) {
+            m.setOperRoleName("学生");
+            Student student = studentMapper.selectByPrimaryKey(m.getOperId());
+            m.setOperName(student.getsName());
+        }
+        messageExt.setMessageExt(m);
+        this.buildDiscussMessage(m);
+    }
 
 }

@@ -95,4 +95,8 @@ public class WorkService {
 		return stuList;
 	}
 
+    public Work getWork(Integer wId) {
+        return workMapper.selectByPrimaryKey(wId);
+    }
+
 }
