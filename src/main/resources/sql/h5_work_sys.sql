@@ -697,3 +697,6 @@ DROP TABLE IF EXISTS `t_student_jsp`;
 DROP TABLE IF EXISTS `t_notice`;
 DROP TABLE IF EXISTS `t_news`;
 DROP TABLE IF EXISTS `t_message`;
+
+ALTER TABLE `t_message`
+ADD COLUMN `msg_type`  int(1) NOT NULL COMMENT '消息类型。1：提问，2：讨论' AFTER `msg_pid`;
