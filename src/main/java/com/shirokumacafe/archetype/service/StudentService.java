@@ -1,24 +1,16 @@
 package com.shirokumacafe.archetype.service;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang3.StringUtils;
+import com.github.pagehelper.PageHelper;
+import com.shirokumacafe.archetype.common.Configs;
+import com.shirokumacafe.archetype.common.mybatis.Page;
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.StudentExt;
+import com.shirokumacafe.archetype.repository.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shirokumacafe.archetype.common.Configs;
-import com.shirokumacafe.archetype.common.mybatis.Page;
-import com.shirokumacafe.archetype.common.utilities.Responses;
-import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.StudentExample;
-import com.shirokumacafe.archetype.entity.ViewStudent;
-import com.shirokumacafe.archetype.entity.ViewStudentExample;
-import com.shirokumacafe.archetype.repository.StudentMapper;
-import com.shirokumacafe.archetype.repository.ViewStudentMapper;
+import java.util.List;
 
 /**
  * 学生信息
@@ -30,13 +22,8 @@ import com.shirokumacafe.archetype.repository.ViewStudentMapper;
 @Transactional
 public class StudentService {
 
-    public static final int HASH_INTERATIONS = 1024;
-    private static final int SALT_SIZE = 8;
-
     @Autowired
     private StudentMapper studentMapper;
-    @Autowired
-    private ViewStudentMapper viewStudentMapper;
 
     /**
      * 增加学生  默认密码123456
@@ -50,15 +37,12 @@ public class StudentService {
     }
 
     /**
-     * 批量删除
+     * 删除
      *
-     * @param sIds
+     * @param sId
      */
-    public void delete(List<Integer> sIds) {
-        StudentExample example = new StudentExample();
-        StudentExample.Criteria criteria = example.createCriteria();
-        criteria.andSIdIn(sIds);
-        studentMapper.deleteByExample(example);
+    public void delete(Integer sId) {
+        studentMapper.deleteByPrimaryKey(sId);
     }
 
     /**
@@ -73,82 +57,26 @@ public class StudentService {
     /**
      * 分页查找
      *
-     * @param student
+     * @param studentExt
      * @param page
      * @return
      */
-    public Page<ViewStudent> findPage(Student student, Page page) {
-        ViewStudentExample example = new ViewStudentExample();
-        ViewStudentExample.Criteria criteria = example.createCriteria();
-        if (StringUtils.isNotBlank(student.getsNo())) {
-            criteria.andSNoLike("%" + student.getsNo() + "%");
-        }
-        if (StringUtils.isNotBlank(student.getsName())) {
-            criteria.andSNameLike("%" + student.getsName() + "%");
-        }
-        if (student.getsSex() != null) {
-            criteria.andSSexEqualTo(student.getsSex());
-        }
-        if (student.getdId() != null) {
-            criteria.andDIdEqualTo(student.getdId());
-        }
-        example.setOrderByClause("s_no asc");
-        List<ViewStudent> rows = viewStudentMapper.selectByExampleWithRowbounds(example, page.createRowBounds());
-        int results = viewStudentMapper.countByExample(example);
+    public Page<StudentExt> findPage(StudentExt studentExt, Page page) {
+        com.github.pagehelper.Page pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
+        List<StudentExt> rows = studentMapper.selectStudentExtByParams(studentExt);
         page.setRows(rows);
-        page.setResults(results);
+        page.setResults(Integer.valueOf(String.valueOf(pageHelper.getTotal())));
         return page;
     }
 
     /**
      * 批量重置密码
      */
-    public void resetPassword(List<Integer> ids) {
+    public void resetPassword(Integer sId) {
         Student student = new Student();
+        student.setsId(sId);
         student.setsPassword(Configs.DEFAULT_PASSWORD);
-        StudentExample example = new StudentExample();
-        StudentExample.Criteria criteria = example.createCriteria();
-        criteria.andSIdIn(ids);
-        studentMapper.updateByExampleSelective(student, example);
-    }
-
-/***************前台*****************************************************/
-
-    /**
-     * 登录
-     *
-     * @return
-     */
-    public Map login(String sNo, String sPassword, HttpSession session) {
-        StudentExample example = new StudentExample();
-        StudentExample.Criteria criteria = example.createCriteria();
-        criteria.andSNoEqualTo(sNo);
-        List<Student> students = studentMapper.selectByExample(example);
-        if (students.size() > 0) {
-            Student student = students.get(0);
-            if (!student.getsPassword().equals(sPassword)) {
-                return Responses.writeFailAndMsg("账户名或密码错误!");
-            } else {
-                session.setAttribute("student", student);
-                return Responses.writeSuccess();
-            }
-        } else {
-            return Responses.writeFailAndMsg("该账户不存在！");
-        }
-    }
-
-
-    /**
-     * 学生信息
-     *
-     * @param sId
-     * @return
-     */
-    public ViewStudent getStudentBySId(Integer sId) {
-        ViewStudentExample example = new ViewStudentExample();
-        ViewStudentExample.Criteria criteria = example.createCriteria();
-        criteria.andSIdEqualTo(sId);
-        return viewStudentMapper.selectByExample(example).get(0);
+        studentMapper.updateByPrimaryKeySelective(student);
     }
 
 }

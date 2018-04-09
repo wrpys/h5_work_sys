@@ -19,8 +19,11 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
 
+    MessageExt selectMessageExtByParams(MessageExt record);
+
     List<QuestionMessage> selectQuestionMessageByParams(QuestionMessage questionMessage);
 
     List<MessageExt> selectMessageTeacherExtByParams(MessageExt messageExt);
+
     List<MessageExt> selectMessageStudentExtByParams(MessageExt messageExt);
 }

@@ -1,5 +1,6 @@
 package com.shirokumacafe.archetype.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -110,9 +111,9 @@ public class WorkController {
         return Responses.writeJson(result);
     }
     
-    
-    
-    
+
+
+
     /**
      * 跳转至作业分析
      * @author CZX
@@ -125,7 +126,7 @@ public class WorkController {
         model.addAttribute("workId", work.getwId());
         return "getWorkAnalysis";
     }
-    
+
     /**
      * 统计分析作业情况
      * @author CZX
@@ -141,5 +142,5 @@ public class WorkController {
         page.setResults((int)pageHelper.getTotal());
         return page;
     }
-    
+
 }

@@ -3,18 +3,16 @@ package com.shirokumacafe.archetype.web;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.ViewStudent;
-import com.shirokumacafe.archetype.service.DepartmentService;
+import com.shirokumacafe.archetype.entity.StudentExt;
+import com.shirokumacafe.archetype.service.ClzssService;
 import com.shirokumacafe.archetype.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,18 +28,18 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
     @Autowired
-    private DepartmentService departmentService;
+    private ClzssService clzssService;
 
     @RequestMapping
     public String to(Model model) {
-        model.addAttribute("departments", departmentService.getParentDepartment());
+        model.addAttribute("clzssList", clzssService.findAll());
         return "student";
     }
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public String list(Student student, Page page) {
-        Page<ViewStudent> studentPage = studentService.findPage(student, page);
+    public String list(StudentExt studentExt, Page page) {
+        Page<StudentExt> studentPage = studentService.findPage(studentExt, page);
         return Responses.writeJson(studentPage);
     }
 
@@ -61,15 +59,15 @@ public class StudentController {
 
     @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
-    public Map delete(@RequestParam(value = "ids") List<Integer> ids) {
-        studentService.delete(ids);
+    public Map delete(Integer sId) {
+        studentService.delete(sId);
         return Responses.writeSuccess();
     }
 
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
     @ResponseBody
-    public Map resetPassword(@RequestParam(value = "ids") List<Integer> ids) {
-        studentService.resetPassword(ids);
+    public Map resetPassword(Integer sId) {
+        studentService.resetPassword(sId);
         return Responses.writeSuccess();
     }
 
