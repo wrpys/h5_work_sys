@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shirokumacafe.archetype.repository.terminal.WorkMapper">
+  <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.Work">
+    <id column="w_id" jdbcType="INTEGER" property="wId" />
+    <result column="user_tch_id" jdbcType="INTEGER" property="userTchId" />
+    <result column="clzss_id" jdbcType="INTEGER" property="clzssId" />
+    <result column="w_work_name" jdbcType="VARCHAR" property="wWorkName" />
+    <result column="w_add_time" jdbcType="TIMESTAMP" property="wAddTime" />
+    <result column="w_work_requirement" jdbcType="VARCHAR" property="wWorkRequirement" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    w_id, user_tch_id, clzss_id, w_work_name, w_add_time, w_work_requirement
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work
+    where w_id = #{wId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_work
+    where w_id = #{wId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Work">
+    insert into t_work (user_tch_id, clzss_id, 
+      w_work_name, w_add_time, w_work_requirement
+      )
+    values (#{userTchId,jdbcType=INTEGER}, #{clzssId,jdbcType=INTEGER}, 
+      #{wWorkName,jdbcType=VARCHAR}, #{wAddTime,jdbcType=TIMESTAMP}, #{wWorkRequirement,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.Work">
+    insert into t_work
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wId != null">
+        w_id,
+      </if>
+      <if test="userTchId != null">
+        user_tch_id,
+      </if>
+      <if test="clzssId != null">
+        clzss_id,
+      </if>
+      <if test="wWorkName != null">
+        w_work_name,
+      </if>
+      <if test="wAddTime != null">
+        w_add_time,
+      </if>
+      <if test="wWorkRequirement != null">
+        w_work_requirement,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wId != null">
+        #{wId,jdbcType=INTEGER},
+      </if>
+      <if test="userTchId != null">
+        #{userTchId,jdbcType=INTEGER},
+      </if>
+      <if test="clzssId != null">
+        #{clzssId,jdbcType=INTEGER},
+      </if>
+      <if test="wWorkName != null">
+        #{wWorkName,jdbcType=VARCHAR},
+      </if>
+      <if test="wAddTime != null">
+        #{wAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wWorkRequirement != null">
+        #{wWorkRequirement,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shirokumacafe.archetype.entity.Work">
+    update t_work
+    <set>
+      <if test="userTchId != null">
+        user_tch_id = #{userTchId,jdbcType=INTEGER},
+      </if>
+      <if test="clzssId != null">
+        clzss_id = #{clzssId,jdbcType=INTEGER},
+      </if>
+      <if test="wWorkName != null">
+        w_work_name = #{wWorkName,jdbcType=VARCHAR},
+      </if>
+      <if test="wAddTime != null">
+        w_add_time = #{wAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wWorkRequirement != null">
+        w_work_requirement = #{wWorkRequirement,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where w_id = #{wId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.Work">
+    update t_work
+    set user_tch_id = #{userTchId,jdbcType=INTEGER},
+      clzss_id = #{clzssId,jdbcType=INTEGER},
+      w_work_name = #{wWorkName,jdbcType=VARCHAR},
+      w_add_time = #{wAddTime,jdbcType=TIMESTAMP},
+      w_work_requirement = #{wWorkRequirement,jdbcType=VARCHAR}
+    where w_id = #{wId,jdbcType=INTEGER}
+  </update>
+</mapper>

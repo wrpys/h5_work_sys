@@ -17,7 +17,9 @@ public class Student {
 
     private Integer dId;
 
-    private String grade;
+    private Integer clzssId;
+
+    private Integer grade;
 
     private String sClass;
 
@@ -85,12 +87,20 @@ public class Student {
         this.dId = dId;
     }
 
-    public String getGrade() {
+    public Integer getClzssId() {
+        return clzssId;
+    }
+
+    public void setClzssId(Integer clzssId) {
+        this.clzssId = clzssId;
+    }
+
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade == null ? null : grade.trim();
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     public String getsClass() {

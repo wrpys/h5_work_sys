@@ -11,13 +11,7 @@ public class WorkInfo {
 
     private Date wiAddTime;
 
-    private String wiFileName;
-
-    private String wiFileAddr;
-
-    private Integer wiFileSize;
-
-    private String wIDesc;
+    private String wIScore;
 
     public Integer getWiId() {
         return wiId;
@@ -51,35 +45,11 @@ public class WorkInfo {
         this.wiAddTime = wiAddTime;
     }
 
-    public String getWiFileName() {
-        return wiFileName;
+    public String getwIScore() {
+        return wIScore;
     }
 
-    public void setWiFileName(String wiFileName) {
-        this.wiFileName = wiFileName == null ? null : wiFileName.trim();
-    }
-
-    public String getWiFileAddr() {
-        return wiFileAddr;
-    }
-
-    public void setWiFileAddr(String wiFileAddr) {
-        this.wiFileAddr = wiFileAddr == null ? null : wiFileAddr.trim();
-    }
-
-    public Integer getWiFileSize() {
-        return wiFileSize;
-    }
-
-    public void setWiFileSize(Integer wiFileSize) {
-        this.wiFileSize = wiFileSize;
-    }
-
-    public String getwIDesc() {
-        return wIDesc;
-    }
-
-    public void setwIDesc(String wIDesc) {
-        this.wIDesc = wIDesc == null ? null : wIDesc.trim();
+    public void setwIScore(String wIScore) {
+        this.wIScore = wIScore == null ? null : wIScore.trim();
     }
 }

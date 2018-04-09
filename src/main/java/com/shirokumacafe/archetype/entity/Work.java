@@ -5,13 +5,15 @@ import java.util.Date;
 public class Work {
     private Integer wId;
 
-    private Integer cId;
+    private Integer userTchId;
 
-    private String cName;
+    private Integer clzssId;
+
+    private String wWorkName;
 
     private Date wAddTime;
 
-    private String wDesc;
+    private String wWorkRequirement;
 
     public Integer getwId() {
         return wId;
@@ -21,20 +23,28 @@ public class Work {
         this.wId = wId;
     }
 
-    public Integer getcId() {
-        return cId;
+    public Integer getUserTchId() {
+        return userTchId;
     }
 
-    public void setcId(Integer cId) {
-        this.cId = cId;
+    public void setUserTchId(Integer userTchId) {
+        this.userTchId = userTchId;
     }
 
-    public String getcName() {
-        return cName;
+    public Integer getClzssId() {
+        return clzssId;
     }
 
-    public void setcName(String cName) {
-        this.cName = cName == null ? null : cName.trim();
+    public void setClzssId(Integer clzssId) {
+        this.clzssId = clzssId;
+    }
+
+    public String getwWorkName() {
+        return wWorkName;
+    }
+
+    public void setwWorkName(String wWorkName) {
+        this.wWorkName = wWorkName == null ? null : wWorkName.trim();
     }
 
     public Date getwAddTime() {
@@ -45,11 +55,11 @@ public class Work {
         this.wAddTime = wAddTime;
     }
 
-    public String getwDesc() {
-        return wDesc;
+    public String getwWorkRequirement() {
+        return wWorkRequirement;
     }
 
-    public void setwDesc(String wDesc) {
-        this.wDesc = wDesc == null ? null : wDesc.trim();
+    public void setwWorkRequirement(String wWorkRequirement) {
+        this.wWorkRequirement = wWorkRequirement == null ? null : wWorkRequirement.trim();
     }
 }

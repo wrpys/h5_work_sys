@@ -35,11 +35,13 @@ public interface StudentMapper {
         "insert into t_student (s_no, s_name, ",
         "s_password, salt, ",
         "user_role, s_sex, d_id, ",
-        "grade, s_class)",
+        "clzss_id, grade, ",
+        "s_class)",
         "values (#{sNo,jdbcType=VARCHAR}, #{sName,jdbcType=VARCHAR}, ",
         "#{sPassword,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, ",
         "#{userRole,jdbcType=INTEGER}, #{sSex,jdbcType=BIT}, #{dId,jdbcType=INTEGER}, ",
-        "#{grade,jdbcType=VARCHAR}, #{sClass,jdbcType=VARCHAR})"
+        "#{clzssId,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, ",
+        "#{sClass,jdbcType=VARCHAR})"
     })
     @SelectKey(statement="SELECT @@IDENTITY", keyProperty="sId", before=false, resultType=Integer.class)
     int insert(Student record);
@@ -58,7 +60,8 @@ public interface StudentMapper {
         @Result(column="user_role", property="userRole", jdbcType=JdbcType.INTEGER),
         @Result(column="s_sex", property="sSex", jdbcType=JdbcType.BIT),
         @Result(column="d_id", property="dId", jdbcType=JdbcType.INTEGER),
-        @Result(column="grade", property="grade", jdbcType=JdbcType.VARCHAR),
+        @Result(column="clzss_id", property="clzssId", jdbcType=JdbcType.INTEGER),
+        @Result(column="grade", property="grade", jdbcType=JdbcType.INTEGER),
         @Result(column="s_class", property="sClass", jdbcType=JdbcType.VARCHAR)
     })
     List<Student> selectByExampleWithRowbounds(StudentExample example, RowBounds rowBounds);
@@ -73,14 +76,16 @@ public interface StudentMapper {
         @Result(column="user_role", property="userRole", jdbcType=JdbcType.INTEGER),
         @Result(column="s_sex", property="sSex", jdbcType=JdbcType.BIT),
         @Result(column="d_id", property="dId", jdbcType=JdbcType.INTEGER),
-        @Result(column="grade", property="grade", jdbcType=JdbcType.VARCHAR),
+        @Result(column="clzss_id", property="clzssId", jdbcType=JdbcType.INTEGER),
+        @Result(column="grade", property="grade", jdbcType=JdbcType.INTEGER),
         @Result(column="s_class", property="sClass", jdbcType=JdbcType.VARCHAR)
     })
     List<Student> selectByExample(StudentExample example);
 
     @Select({
         "select",
-        "s_id, s_no, s_name, s_password, salt, user_role, s_sex, d_id, grade, s_class",
+        "s_id, s_no, s_name, s_password, salt, user_role, s_sex, d_id, clzss_id, grade, ",
+        "s_class",
         "from t_student",
         "where s_id = #{sId,jdbcType=INTEGER}"
     })
@@ -93,7 +98,8 @@ public interface StudentMapper {
         @Result(column="user_role", property="userRole", jdbcType=JdbcType.INTEGER),
         @Result(column="s_sex", property="sSex", jdbcType=JdbcType.BIT),
         @Result(column="d_id", property="dId", jdbcType=JdbcType.INTEGER),
-        @Result(column="grade", property="grade", jdbcType=JdbcType.VARCHAR),
+        @Result(column="clzss_id", property="clzssId", jdbcType=JdbcType.INTEGER),
+        @Result(column="grade", property="grade", jdbcType=JdbcType.INTEGER),
         @Result(column="s_class", property="sClass", jdbcType=JdbcType.VARCHAR)
     })
     Student selectByPrimaryKey(Integer sId);
@@ -116,7 +122,8 @@ public interface StudentMapper {
           "user_role = #{userRole,jdbcType=INTEGER},",
           "s_sex = #{sSex,jdbcType=BIT},",
           "d_id = #{dId,jdbcType=INTEGER},",
-          "grade = #{grade,jdbcType=VARCHAR},",
+          "clzss_id = #{clzssId,jdbcType=INTEGER},",
+          "grade = #{grade,jdbcType=INTEGER},",
           "s_class = #{sClass,jdbcType=VARCHAR}",
         "where s_id = #{sId,jdbcType=INTEGER}"
     })
