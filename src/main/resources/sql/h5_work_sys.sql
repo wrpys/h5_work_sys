@@ -804,3 +804,22 @@ CREATE TABLE `t_work_info` (
 -- ----------------------------
 INSERT INTO `t_work_info` VALUES ('1', '1', '1', '2015-04-17 20:56:12', '50');
 INSERT INTO `t_work_info` VALUES ('2', '1', '31', '2015-04-17 21:05:43', '50');
+
+-- 20180409 wrp
+DROP TABLE IF EXISTS `t_attend_addr`;
+DROP TABLE IF EXISTS `t_course`;
+DROP TABLE IF EXISTS `t_course_info`;
+DROP TABLE IF EXISTS `t_course_student`;
+DROP TABLE IF EXISTS `t_course_time`;
+-- 可能会报错，外键名可能不一样
+ALTER TABLE `t_student` DROP FOREIGN KEY `t_student_ibfk_1`;
+DROP TABLE IF EXISTS `t_department`;
+DROP VIEW IF EXISTS `v_course`;
+DROP VIEW IF EXISTS `v_course_info`;
+DROP VIEW IF EXISTS `v_course_student`;
+DROP VIEW IF EXISTS `v_student`;
+
+ALTER TABLE `t_student`
+DROP COLUMN `d_id`,
+DROP COLUMN `grade`,
+DROP COLUMN `s_class`;
