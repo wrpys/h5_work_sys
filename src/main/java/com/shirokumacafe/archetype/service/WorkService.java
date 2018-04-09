@@ -1,6 +1,5 @@
 package com.shirokumacafe.archetype.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,10 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.StudentExample;
 import com.shirokumacafe.archetype.entity.Work;
 import com.shirokumacafe.archetype.entity.WorkInfo;
-import com.shirokumacafe.archetype.repository.StudentMapper;
+import com.shirokumacafe.archetype.repository.terminal.StuMapper;
 import com.shirokumacafe.archetype.repository.terminal.WorkInfoMapper;
 import com.shirokumacafe.archetype.repository.terminal.WorkMapper;
 
@@ -32,7 +30,7 @@ public class WorkService {
     private WorkInfoMapper workInfoMapper;
     
     @Autowired
-    private StudentMapper stuMapper;
+    private StuMapper stuMapper;
     
     /**
      * 添加作业
@@ -70,45 +68,20 @@ public class WorkService {
         workMapper.deleteWorkList(ids);
     }
 
-    
     /**
      * 根据作业信息ID和studen_id获取
      * @author CZX
      * @param wiId
      * @return
      */
-    public WorkInfo getWorkInfoByWiIdAndStuId(Integer wiId,Integer sId){
-        return workInfoMapper.getWorkInfoByWiIdAndStuId(wiId,sId);
+    public WorkInfo getWorkInfoByWiIdAndStuId(WorkInfo workInfo){
+        return workInfoMapper.getWorkInfoByWiIdAndStuId(workInfo);
     }
     
-    /**
-     * 获取所有要做作业的学生列表信息:clzssId来获取所有应该提交的studentId
-     * @author CZX
-     * @param work
-     * @return
-     */
-	public List<Student> getAllToDoWorkList(Work work) {
-		Integer clzss_id = work.getClzssId();
-		StudentExample example = new StudentExample();
-		StudentExample.Criteria criteria = example.createCriteria();
-		criteria.andClzssIdEqualTo(clzss_id);
-		List<Student> stuList = stuMapper.selectByExample(example);
+    
+	public List<Student> getWorkAnalysis(Work work) {
+		List<Student> stuList = stuMapper.getWorkAnalysis(work);
 		return stuList;
-	}
-	
-	/**
-	 * 获取已经做了作业的学生列表信息:workId找到对应的workInfo表中的studentId列表
-	 * @param work
-	 * @return
-	 */
-	public List<Integer> getIsDoWorkList(Work work) {
-		Integer workId = work.getwId();
-		List<WorkInfo> workInfoList = workInfoMapper.getWorkInfosByWorkId(workId);
-		List<Integer> stuIds = new ArrayList<Integer>();
-		for (WorkInfo workInfo : workInfoList) {
-			stuIds.add(workInfo.getsId());
-		}
-		return stuIds;
 	}
 
     

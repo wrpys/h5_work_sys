@@ -1,6 +1,5 @@
 package com.shirokumacafe.archetype.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +67,7 @@ public class WorkController {
      */
     @RequestMapping(value = "list",method = RequestMethod.GET)
     @ResponseBody
-    public Page<Work> list(Work work,Page<Work> page){
+    public Page<Work> list(Page<Work> page){
     	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
     	List<Work> workList = workService.findAll();
     	page.setRows(workList);
@@ -111,8 +110,24 @@ public class WorkController {
     @RequestMapping(value = "getWorkResult",method = RequestMethod.POST)
     @ResponseBody
     public String getWorkResult(WorkInfo workInfo){
-    	WorkInfo result = workService.getWorkInfoByWiIdAndStuId(workInfo.getWiId(), workInfo.getsId());
+    	WorkInfo result = workService.getWorkInfoByWiIdAndStuId(workInfo);
         return Responses.writeJson(result);
+    }
+    
+    
+    
+    
+    /**
+     * 跳转至作业分析
+     * @author CZX
+     * @param work
+     * @return
+     */
+    @RequestMapping("toWorkAnalysis")
+    public String toWorkAnalysis(Model model, Work work) {
+        model.addAttribute("clzss_id", work.getClzssId());
+        model.addAttribute("workId", work.getwId());
+        return "getWorkAnalysis";
     }
     
     /**
@@ -123,17 +138,12 @@ public class WorkController {
      */
     @RequestMapping(value = "getWorkAnalysis",method = RequestMethod.POST)
     @ResponseBody
-    public String getWorkAnalysis(Model model,Work work){
-        List<Student> allToDoWorkList = workService.getAllToDoWorkList(work);
-        List<Integer> doWorkStuIds = workService.getIsDoWorkList(work);
-        List<Student> unDoWorkList = new ArrayList<Student>(); 
-        for(Student stu : allToDoWorkList) {
-        	if(!doWorkStuIds.contains(stu.getdId())) {
-        		unDoWorkList.add(stu);
-        	}
-        }
-        model.addAttribute("doWorkList",doWorkStuIds);
-        model.addAttribute("unDoWorkList",unDoWorkList);
-        return "workAnalysis";
+    public Page<Student> getWorkAnalysis(Work work,Page<Student> page){
+    	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
+    	List<Student> stuList = workService.getWorkAnalysis(work);
+    	page.setRows(stuList);
+        page.setResults((int)pageHelper.getTotal());
+        return page;
     }
+    
 }

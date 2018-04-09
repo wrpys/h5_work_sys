@@ -17,7 +17,7 @@ public interface WorkInfoMapper {
 
     int updateByPrimaryKey(WorkInfo record);
 
-	WorkInfo getWorkInfoByWiIdAndStuId(Integer wiId,Integer sId);
+	WorkInfo getWorkInfoByWiIdAndStuId(WorkInfo workInfo);
 
 	List<WorkInfo> getWorkInfosByWorkId(Integer workId);
 }

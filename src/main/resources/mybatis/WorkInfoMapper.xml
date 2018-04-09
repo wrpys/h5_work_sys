@@ -25,7 +25,7 @@
     where wi_id = #{wiId,jdbcType=INTEGER}
   </select>
   
-  <select id="getWorkInfoByWiIdAndStuId" resultMap="BaseResultMap">
+  <select id="getWorkInfoByWiIdAndStuId" parameterType="com.shirokumacafe.archetype.entity.WorkInfo" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_work_info

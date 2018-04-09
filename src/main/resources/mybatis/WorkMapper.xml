@@ -18,6 +18,13 @@
     from t_work
     where w_id = #{wId,jdbcType=INTEGER}
   </select>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_work
     where w_id = #{wId,jdbcType=INTEGER}
