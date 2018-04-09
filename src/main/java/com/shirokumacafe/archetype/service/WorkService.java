@@ -1,37 +1,22 @@
 package com.shirokumacafe.archetype.service;
 
-<<<<<<< HEAD
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.github.pagehelper.PageHelper;
 import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.entity.Clzss;
-=======
->>>>>>> af2b616a21ef91bd2f11042ce40dc259d5f4c82c
 import com.shirokumacafe.archetype.entity.Student;
 import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.entity.Work;
 import com.shirokumacafe.archetype.entity.WorkInfo;
-<<<<<<< HEAD
-import com.shirokumacafe.archetype.repository.terminal.ClzssManagementMapper;
-import com.shirokumacafe.archetype.repository.terminal.StuMapper;
-=======
+import com.shirokumacafe.archetype.repository.ClzssMapper;
 import com.shirokumacafe.archetype.repository.StudentMapper;
->>>>>>> af2b616a21ef91bd2f11042ce40dc259d5f4c82c
-import com.shirokumacafe.archetype.repository.terminal.WorkInfoMapper;
-import com.shirokumacafe.archetype.repository.terminal.WorkMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.List;
+import com.shirokumacafe.archetype.repository.WorkInfoMapper;
+import com.shirokumacafe.archetype.repository.WorkMapper;
 
 /**
  * 作业管理：出作业题，查看作业结果，统计分析作业情况
@@ -52,7 +37,7 @@ public class WorkService {
     private StudentMapper studentMapper;
     
     @Autowired
-    private ClzssManagementMapper clzssMapper;
+    private ClzssMapper clzssMapper;
     
     @Autowired
     private Users sessionUsers;
@@ -117,9 +102,8 @@ public class WorkService {
     }
     
 	public List<Student> getWorkAnalysis(Work work) {
-//        List<Student> stuList = studentMapper.getWorkAnalysis(work);
-//        return stuList;
-        return null;
+        List<Student> stuList = studentMapper.getWorkAnalysis(work);
+        return stuList;
     }
     /**
      * 获取所有要做作业的学生列表信息:clzssId来获取所有应该提交的studentId

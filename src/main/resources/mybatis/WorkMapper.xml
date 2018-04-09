@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.shirokumacafe.archetype.repository.terminal.WorkMapper">
+<mapper namespace="com.shirokumacafe.archetype.repository.WorkMapper">
   <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.Work">
     <id column="w_id" jdbcType="INTEGER" property="wId" />
     <result column="user_tch_id" jdbcType="INTEGER" property="userTchId" />

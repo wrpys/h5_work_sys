@@ -1,4 +1,4 @@
-package com.shirokumacafe.archetype.repository.terminal;
+package com.shirokumacafe.archetype.repository;
 
 
 import java.util.List;
@@ -12,7 +12,7 @@ import com.shirokumacafe.archetype.entity.Clzss;
  * @author CZX
  *
  */
-public interface ClzssManagementMapper {
+public interface ClzssMapper {
 	
 	int deleteByPrimaryKey(Integer id);
 	

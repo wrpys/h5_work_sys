@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.shirokumacafe.archetype.entity.Clzss;
-import com.shirokumacafe.archetype.repository.terminal.ClzssManagementMapper;
+import com.shirokumacafe.archetype.repository.ClzssMapper;
 
 
 /**
@@ -19,7 +19,7 @@ import com.shirokumacafe.archetype.repository.terminal.ClzssManagementMapper;
 public class ClzssService {
 
     @Autowired
-    private ClzssManagementMapper clzssMapper;
+    private ClzssMapper clzssMapper;
 
     /**
      * 获取所有班级

@@ -1,4 +1,4 @@
-package com.shirokumacafe.archetype.repository.terminal;
+package com.shirokumacafe.archetype.repository;
 
 import java.util.List;
 
