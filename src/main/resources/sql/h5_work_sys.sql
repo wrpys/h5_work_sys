@@ -698,5 +698,15 @@ DROP TABLE IF EXISTS `t_notice`;
 DROP TABLE IF EXISTS `t_news`;
 DROP TABLE IF EXISTS `t_message`;
 
-ALTER TABLE `t_message`
-ADD COLUMN `msg_type`  int(1) NOT NULL COMMENT '消息类型。1：提问，2：讨论' AFTER `msg_pid`;
+DROP TABLE IF EXISTS `t_message`;
+CREATE TABLE `t_message` (
+  `msg_id` int(11) NOT NULL AUTO_INCREMENT,
+  `msg_pid` int(11) NOT NULL,
+  `msg_type` int(1) NOT NULL COMMENT '消息类型。1：提问，2：讨论',
+  `msg_content` varchar(500) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `w_id` int(11) NOT NULL COMMENT '作业ID',
+  `oper_role` int(1) NOT NULL COMMENT '发送角色，1:老师，2:学生',
+  `oper_id` int(11) NOT NULL COMMENT '发送者ID',
+  PRIMARY KEY (`msg_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
