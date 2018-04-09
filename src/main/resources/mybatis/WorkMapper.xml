@@ -19,16 +19,39 @@
     where w_id = #{wId,jdbcType=INTEGER}
   </select>
   
-  <select id="findAll" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_work
-  </select>
+  <select id="selectByParams" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from t_work t
+		<where>
+			<if test="wWorkName!=null and wWorkName!=''">
+				and t.w_work_name like CONCAT('%',#{wWorkName},'%')
+			</if>
+			<if test="wWorkRequirement!=null and wWorkRequirement!=''">
+				and t.w_work_requirement like CONCAT('%',#{wWorkRequirement},'%')
+			</if>
+		</where>
+	</select>
+  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_work
     where w_id = #{wId,jdbcType=INTEGER}
   </delete>
+  
+  <delete id="deleteWorkList" parameterType="java.util.List">
+		delete from t_work where 1=1
+		<if test="list !=null and list != ''">
+			and w_id in
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+	</delete>
+  
+  
   <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Work">
     insert into t_work (user_tch_id, clzss_id, 
       w_work_name, w_add_time, w_work_requirement

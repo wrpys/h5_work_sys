@@ -51,8 +51,8 @@ public class WorkController {
      */
     @RequestMapping(value = "add",method = RequestMethod.POST)
     @ResponseBody
-    public Map<?,?> add(Work work){
-        workService.add(work);
+    public Map<?,?> add(Work work,String grade,String clzss){
+        workService.add(work,grade,clzss);
         return Responses.writeSuccess();
     }
     
@@ -67,12 +67,8 @@ public class WorkController {
      */
     @RequestMapping(value = "list",method = RequestMethod.GET)
     @ResponseBody
-    public Page<Work> list(Page<Work> page){
-    	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
-    	List<Work> workList = workService.findAll();
-    	page.setRows(workList);
-        page.setResults((int)pageHelper.getTotal());
-        return page;
+    public Page<Work> list(Work work, Page<Work> page){
+        return workService.list(work, page);
     }
     
     /**
@@ -83,8 +79,8 @@ public class WorkController {
      */
     @RequestMapping(value = "update",method = RequestMethod.POST)
     @ResponseBody
-    public Map<?,?> update(Work work){
-        workService.update(work);
+    public Map<?,?> update(Work work,String grade,String clzss){
+        workService.update(work,grade,clzss);
         return Responses.writeSuccess();
     }
     
@@ -136,7 +132,7 @@ public class WorkController {
      * @param work
      * @return
      */
-    @RequestMapping(value = "getWorkAnalysis",method = RequestMethod.POST)
+    @RequestMapping(value = "getWorkAnalysis",method = RequestMethod.GET)
     @ResponseBody
     public Page<Student> getWorkAnalysis(Work work,Page<Student> page){
     	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());

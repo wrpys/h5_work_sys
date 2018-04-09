@@ -19,9 +19,15 @@
   <select id="findAll" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_clzss
+    from t_clzss order by grade,clzss asc
   </select>
   
+  
+  <select id="selectClzssByGradeAndClzss" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_clzss where grade=#{grade,jdbcType=INTEGER} and clzss=#{clzss,jdbcType=INTEGER}
+  </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_clzss

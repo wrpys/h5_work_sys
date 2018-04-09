@@ -11,17 +11,15 @@
     <form id="searchForm" class="form-horizontal">
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">课程名：</label>
+                <label class="control-label">作业名称：</label>
                 <div class="controls">
-                    <input type="text" class="control-text" name="cName">
+                    <input type="text" class="control-text" name="wWorkName">
                 </div>
             </div>
-            <div class="control-group span9">
-                <label class="control-label">布置时间：</label>
+            <div class="control-group span8">
+                <label class="control-label">作业要求：</label>
                 <div class="controls">
-                    <input type="text" class="calendar" name="startDate">
-                    <span> - </span>
-                    <input type="text" class="calendar" name="endDate">
+                    <input type="text" class="control-text" name="wWorkRequirement">
                 </div>
             </div>
             <div class="span3 offset2">
@@ -36,24 +34,36 @@
 
     <div id="content" class="hide">
         <form id="J_Form" class="form-horizontal">
+        	<input type="hidden" name="wId">
             <div class="row">
                 <div class="control-group span8">
-                    <label class="control-label"><s>*</s>课程：</label>
+                    <label class="control-label"><s>*</s>作业名称：</label>
                     <div class="controls">
-                        <select  name="cId" data-rules="{required:true}">
-                            <option value="">请选择</option>
-                            <c:forEach items="${courses}" var="course">
-                                <option value="${course.cId}">${course.cName}</option>
-                            </c:forEach>
-                        </select>
+                    	<input type="text" data-rules="{required:true}" class="control-text" name="wWorkName">
+                	</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>年级：</label>
+                    <div class="controls">
+                        <input name="grade" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>班级：</label>
+                    <div class="controls">
+                        <input name="clzss" type="text" data-rules="{required:true}" class="input-normal control-text">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="control-group span8" style="height: 200px;">
-                    <label class="control-label"><s>*</s>作业描述：</label>
+                    <label class="control-label"><s>*</s>作业要求：</label>
                     <div class="controls">
-                        <textarea name="wDesc" style="height: 150px;"></textarea>
+                        <textarea name="wWorkRequirement" style="height: 150px;"></textarea>
                     </div>
                 </div>
             </div>
@@ -71,10 +81,10 @@
 <script type="text/javascript">
 BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bui/overlay','bui/data','bui/grid','bui/calendar'],function (Search,List,Picker,Select,Calendar,Overlay,Data,Grid,Calendar) {
         var columns = [
-                { title : '课程名', width: 150, dataIndex: 'cName'},
+                { title : '作业名称', width: 150, dataIndex: 'wWorkName'},
                 { title : '布置时间', width: 150, dataIndex: 'wAddTime'},
-                { title : '作业描述', width: 400, dataIndex: 'wDesc'},
-                { title: '操作', width: 300, dataIndex: 'cId',renderer : function(value,obj){
+                { title : '作业要求', width: 400, dataIndex: 'wWorkRequirement'},
+                { title: '操作', width: 300, dataIndex: 'wId',renderer : function(value,obj){
                     var returnStr = '<span class="grid-command searchWorkInfo">查看提交情况</span>';
                     return returnStr;
                 }}
@@ -122,7 +132,7 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                     },
                     plugins: [BUI.Grid.Plugins.CheckSelection,editing,BUI.Grid.Plugins.AutoFit] //勾选插件
                 });
-        var  search = new Search({
+        		var  search = new Search({
                     store : store,
                     gridCfg : gridCfg
                 }),
@@ -150,7 +160,7 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                     ids.push(item.wId);
                 });
                 if(ids.length){
-                    BUI.Message.Confirm('确认要删除选中的记录么？',function(){
+                    BUI.Message.Confirm('确认要删除选中的记录吗？',function(){
                         $.ajax({
                             url : '${ctx}/work/delete',
                             type:'post',
@@ -186,7 +196,10 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                 url : (record.wId==undefined||record.wId==null||record.wId=='')?'${ctx}/work/add':'${ctx}/work/update',
                 dataType : 'json',
                 type:'post',
-                data : record,
+                data : {clzss:record.clzss,grade:record.grade,
+                	userTchId:record.userTchId,wId:record.wId,
+                	wWorkName:record.wWorkName,wWorkRequirement:record.wWorkRequirement
+                	},
                 success : function(data){
                     if(data.success){ //编辑、新建成功
                         editor.accept(); //隐藏弹出框
@@ -198,31 +211,34 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                 }
             });
         }
-
         /*****************************操作及查看作业提交情况******************************************************/
+        
         var Grid = Grid,
              Store = Data.Store;
-        var
-                WorkInfoColumns = [
-                    { title: '学号', width: 100, dataIndex: 'sNo'},
-                    { title: '姓名', width: 80, dataIndex: 'sName'},
-                    { title: '提交时间', width: 130, dataIndex: 'wiAddTime'},
-                    { title: '文件名', width: 200, dataIndex: 'wiFileName'},
-                    { title: '作业描述', width: 300, dataIndex: 'wIDesc'},
-                    { title: '操作', width: 120, dataIndex: 'wiId',renderer:function(value,obj){
-                        var returnStr ="未提交";
-                        if(value!==null&&value!=undefined&&value!=''){
-                            returnStr = "<a href='${ctx}/work/downWorkInfoFile?wiId="+value+"'>下载</a>";
+        var  WorkInfoColumns = [
+                    { title: '姓名', width: 80, dataIndex: 's_name'},
+                    { title: '年级', width: 200, dataIndex: 'grade'},
+                    { title: '班级', width: 200, dataIndex: 's_class'},
+                    { title: '提交时间', width: 130, dataIndex: 'wi_add_time'},
+                    {
+                        title:"成绩", width: 130,dataIndex: 'w_i_score',
+                        formatter: function (value, row, index) {
+                        	debugger;
+                        	if(value=null || typeof(value) == "undefined"){
+                        		return "未提交";
+                        	}else{
+                        		return value;
+                        	}
                         }
-                        return returnStr;
-                    }}
+                    }
                 ];
         var WorkInfoParams = {
-            wId:null
+            wId:null,
+            clzssId:null,
+            limit:10
         };
         var WorkInfoStore = new Store({
-                    url : '${ctx}/work/getWorkInfoByWId',
-                    pageSize:10,
+                    url : '${ctx}/work/getWorkAnalysis',
                     params : WorkInfoParams
                 }),
                 WorkInfoGrid = new Grid.Grid({
@@ -242,7 +258,7 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
         var WorkInfoDialog;
         function createWorkInfoDialog(){
             return new Overlay.Dialog({
-                title:'上课时间列表',
+                title:'成绩查询列表',
                 width:980,
                 height:500,
                 contentId:'J_WorkInfoContent',
@@ -264,6 +280,7 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                     WorkInfoGrid.render();
                 }
                 WorkInfoParams.wId = record.wId;
+                WorkInfoParams.clzssId = record.clzssId;
                 WorkInfoStore.load(WorkInfoParams);
                 WorkInfoDialog.show();
             }

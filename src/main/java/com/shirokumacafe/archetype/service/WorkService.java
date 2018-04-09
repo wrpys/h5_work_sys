@@ -7,9 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.shirokumacafe.archetype.common.Users;
+import com.shirokumacafe.archetype.common.mybatis.Page;
+import com.shirokumacafe.archetype.entity.Clzss;
 import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.entity.Work;
 import com.shirokumacafe.archetype.entity.WorkInfo;
+import com.shirokumacafe.archetype.repository.terminal.ClzssManagementMapper;
 import com.shirokumacafe.archetype.repository.terminal.StuMapper;
 import com.shirokumacafe.archetype.repository.terminal.WorkInfoMapper;
 import com.shirokumacafe.archetype.repository.terminal.WorkMapper;
@@ -32,13 +38,23 @@ public class WorkService {
     @Autowired
     private StuMapper stuMapper;
     
+    @Autowired
+    private ClzssManagementMapper clzssMapper;
+    
+    @Autowired
+    private Users sessionUsers;
+    
     /**
      * 添加作业
      * @author CZX
      * @param work
      */
-    public void add(Work work){
+    public void add(Work work,String grade,String clzss){
+    	User user = sessionUsers.getCurrentUser();
+    	Clzss clz =  clzssMapper.selectClzssByGradeAndClzss(grade, clzss);
+    	work.setUserTchId(user.getUserId());
         work.setwAddTime(new Date());
+        work.setClzssId(clz.getId());
         workMapper.insert(work);
     }
     
@@ -46,8 +62,12 @@ public class WorkService {
      * 获取所有发布的作业
      * @return
      */
-    public List<Work> findAll(){
-        return workMapper.findAll();
+    public Page<Work> list(Work work, Page<Work> page){
+    	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
+    	List<Work> workList = workMapper.selectByParams(work);
+    	page.setRows(workList);
+        page.setResults((int)pageHelper.getTotal());
+        return page;
     }
     
     /**
@@ -55,7 +75,12 @@ public class WorkService {
      * @author CZX
      * @param work
      */
-    public void update(Work work){
+    public void update(Work work,String grade,String clzss){
+    	User user = sessionUsers.getCurrentUser();
+    	Clzss clz =  clzssMapper.selectClzssByGradeAndClzss(grade, clzss);
+    	work.setUserTchId(user.getUserId());
+        work.setwAddTime(new Date());
+        work.setClzssId(clz.getId());
         workMapper.updateByPrimaryKeySelective(work);
     }
     

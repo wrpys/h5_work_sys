@@ -19,5 +19,5 @@ public interface WorkMapper {
 
 	void deleteWorkList(List<Integer> ids);
 	
-	List<Work> findAll();
+	List<Work> selectByParams(Work work);
 }
