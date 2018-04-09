@@ -1,12 +1,9 @@
 package com.shirokumacafe.archetype.web;
 
-import com.shirokumacafe.archetype.common.mybatis.Page;
-import com.shirokumacafe.archetype.common.utilities.Responses;
-import com.shirokumacafe.archetype.entity.Work;
-import com.shirokumacafe.archetype.entity.WorkInfo;
-import com.shirokumacafe.archetype.repository.terminal.MyXMLMapper;
-import com.shirokumacafe.archetype.service.CourseService;
-import com.shirokumacafe.archetype.service.WorkService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,19 +12,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
-import java.util.*;
+import com.github.pagehelper.PageHelper;
+import com.shirokumacafe.archetype.common.Configs;
+import com.shirokumacafe.archetype.common.mybatis.Page;
+import com.shirokumacafe.archetype.common.utilities.Responses;
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.User;
+import com.shirokumacafe.archetype.entity.Work;
+import com.shirokumacafe.archetype.entity.WorkInfo;
+import com.shirokumacafe.archetype.service.UserService;
+import com.shirokumacafe.archetype.service.WorkService;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 15-3-18
- * Time: 下午2:44
- * 作业管理
+ * 作业管理：出作业题，查看作业结果，统计分析作业情况
+ * @author CZX
+ *
  */
 @Controller
 @RequestMapping("/work")
@@ -36,120 +35,105 @@ public class WorkController {
     @Autowired
     private WorkService workService;
     @Autowired
-    private CourseService courseService;
-    @Autowired
-    private MyXMLMapper myXMLMapper;
-
+    private UserService userService;
+    
     @RequestMapping
     public String to(Model model){
-        model.addAttribute("courses",courseService.findAll());
+    	List<User> users = userService.getUsersByRoleId(Configs.CUSTOMER_TEACHER);
+    	users.addAll(userService.getUsersByRoleId(Configs.CUSTOMER_AMIN));
+        model.addAttribute("users",users);
         return "work";
     }
-
-    @RequestMapping(value = "list",method = RequestMethod.GET)
-    @ResponseBody
-    public String list(Work work,Date startDate,Date endDate,Page page){
-            return Responses.writeJson(workService.list(work,startDate,endDate,page));
-    }
-
-
+    
+    /**
+     * 出作业题
+     * @param work
+     * @return
+     */
     @RequestMapping(value = "add",method = RequestMethod.POST)
     @ResponseBody
-    public Map add(Work work){
+    public Map<?,?> add(Work work){
         workService.add(work);
         return Responses.writeSuccess();
     }
-
-    @RequestMapping(value = "update",method = RequestMethod.POST)
-    @ResponseBody
-    public Map update(Work work){
-        workService.update(work);
-        return Responses.writeSuccess();
-    }
-
-    @RequestMapping(value = "delete",method = RequestMethod.POST)
-    @ResponseBody
-    public Map delete(@RequestParam(value = "ids")List<Integer> ids){
-        workService.delete(ids);
-        return Responses.writeSuccess();
-    }
-
+    
     /**
-     * 获取学生作业提交
-     * @param wId
+     * 查看所有作业发布情况
+     * @author CZX
+     * @param work
+     * @param startDate
+     * @param endDate
      * @param page
      * @return
      */
-    @RequestMapping(value = "getWorkInfoByWId",method = RequestMethod.GET)
+    @RequestMapping(value = "list",method = RequestMethod.GET)
     @ResponseBody
-    public String getWorkInfoByWId(Integer wId,Page page){
-        Map map = new HashMap();
-        map.put("wId",wId);
-        map.put("page",page);
-        //由wId查找出需要提交作业的学生
-        List<Map> courseStudents = myXMLMapper.getCourseStudentByWId(map);
-        List<Integer> sIds = new ArrayList<Integer>();
-        for (int i=0,len=courseStudents.size();i<len;i++){
-            courseStudents.get(i).put("wiId","");
-            courseStudents.get(i).put("wiAddTime","");
-            courseStudents.get(i).put("wiFileName","");
-            courseStudents.get(i).put("wiFileAddr","");
-            courseStudents.get(i).put("wIDesc","");
-            sIds.add((Integer)courseStudents.get(i).get("sId"));
-        }
-        List<WorkInfo> workInfos = workService.getWorkInfoByWIdInSId(wId,sIds);
-        for (int i=0,len=courseStudents.size();i<len;i++){
-            Integer sId = (Integer)courseStudents.get(i).get("sId");
-            for (WorkInfo workInfo :workInfos){
-                if (sId.equals(workInfo.getsId())){
-                    courseStudents.get(i).put("wiId",workInfo.getWiId());
-                    courseStudents.get(i).put("wiAddTime",workInfo.getWiAddTime());
-                    courseStudents.get(i).put("wiFileName",workInfo.getWiFileName());
-                    courseStudents.get(i).put("wiFileAddr",workInfo.getWiFileAddr());
-                    courseStudents.get(i).put("wIDesc",workInfo.getwIDesc());
-                }
-            }
-        }
-        return Responses.writeJson(courseStudents);
+    public Page<Work> list(Work work,Page<Work> page){
+    	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
+    	List<Work> workList = workService.findAll();
+    	page.setRows(workList);
+        page.setResults((int)pageHelper.getTotal());
+        return page;
     }
-
+    
     /**
-     * 下载作业文件
-     * @param wiId
+     * 修改作业
+     * @author CZX
+     * @param work
      * @return
      */
-    @RequestMapping(value = "downWorkInfoFile",method = RequestMethod.GET)
+    @RequestMapping(value = "update",method = RequestMethod.POST)
     @ResponseBody
-    public String downWorkInfoFile(Integer wiId,HttpServletResponse response) throws  Exception{
-        WorkInfo workInfo = workService.getWorkInfoByWiId(wiId);
-        String realPath = System.getProperty("h5_work_sys.root") + workInfo.getWiFileAddr();
-        File file = new File(realPath);
-        if (!file.exists()) {
-            response.sendError(404, "File not found!");
-            return null;
-        }
-        response.reset();
-        response.setContentType("application/x-msdownload");
-        response.setHeader("Content-Disposition","attachment; filename=" + new String(workInfo.getWiFileName().getBytes(),"ISO-8859-1"));
-        byte[] buf = new byte[1024];
-        int len = 0;
-        BufferedInputStream br = null;
-        OutputStream out = null;
-        br = new BufferedInputStream(new FileInputStream(file));
-        out = response.getOutputStream();
-        while ((len = br.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
-        out.flush();
-        if (br != null) {
-            br.close();
-            br = null;
-        }
-        if (out != null) {
-            out.close();
-            out = null;
-        }
-        return null;
+    public Map<?,?> update(Work work){
+        workService.update(work);
+        return Responses.writeSuccess();
     }
-
+    
+    /**
+     * 删除作业
+     * @author CZX
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value = "delete",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<?,?> delete(@RequestParam(value = "ids")List<Integer> ids){
+        workService.delete(ids);
+        return Responses.writeSuccess();
+    }
+    
+    /**
+     * 查看作业结果
+     * @author CZX  
+     * @param workInfo
+     * @return
+     */
+    @RequestMapping(value = "getWorkResult",method = RequestMethod.POST)
+    @ResponseBody
+    public String getWorkResult(WorkInfo workInfo){
+    	WorkInfo result = workService.getWorkInfoByWiIdAndStuId(workInfo.getWiId(), workInfo.getsId());
+        return Responses.writeJson(result);
+    }
+    
+    /**
+     * 统计分析作业情况
+     * @author CZX
+     * @param work
+     * @return
+     */
+    @RequestMapping(value = "getWorkAnalysis",method = RequestMethod.POST)
+    @ResponseBody
+    public String getWorkAnalysis(Model model,Work work){
+        List<Student> allToDoWorkList = workService.getAllToDoWorkList(work);
+        List<Integer> doWorkStuIds = workService.getIsDoWorkList(work);
+        List<Student> unDoWorkList = new ArrayList<Student>(); 
+        for(Student stu : allToDoWorkList) {
+        	if(!doWorkStuIds.contains(stu.getdId())) {
+        		unDoWorkList.add(stu);
+        	}
+        }
+        model.addAttribute("doWorkList",doWorkStuIds);
+        model.addAttribute("unDoWorkList",unDoWorkList);
+        return "workAnalysis";
+    }
 }

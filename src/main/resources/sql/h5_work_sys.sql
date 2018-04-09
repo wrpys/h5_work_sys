@@ -689,7 +689,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 DROP VIEW IF EXISTS `v_user`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_user` AS select `t1`.`user_id` AS `user_id`,`t1`.`login_name` AS `login_name`,`t1`.`nick_name` AS `nick_name`,`t1`.`password` AS `password`,`t1`.`salt` AS `salt`,`t1`.`user_role` AS `user_role`,`t1`.`state` AS `state`,`t1`.`create_id` AS `create_id`,`t1`.`create_time` AS `create_time`,`t2`.`role_name` AS `role_name`,`t2`.`role_code` AS `role_code`,`t3`.`login_name` AS `create_name` from ((`t_user` `t1` left join `t_role` `t2` on((`t1`.`user_role` = `t2`.`role_id`))) left join `t_user` `t3` on((`t1`.`create_id` = `t3`.`user_id`))) ;
 
---20180408 王荣坡
+-- 20180408 wrp
 DROP VIEW IF EXISTS `v_notice`;
 DROP VIEW IF EXISTS `v_news`;
 DROP VIEW IF EXISTS `v_message`;
@@ -710,3 +710,97 @@ CREATE TABLE `t_message` (
   `oper_id` int(11) NOT NULL COMMENT '发送者ID',
   PRIMARY KEY (`msg_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+
+-- 20180409 czx
+
+-- ----------------------------
+-- Table structure for t_student
+-- ----------------------------
+DROP TABLE IF EXISTS `t_student`;
+CREATE TABLE `t_student` (
+  `s_id` int(11) NOT NULL AUTO_INCREMENT,
+  `s_no` varchar(50) NOT NULL,
+  `s_name` varchar(50) NOT NULL,
+  `s_password` varchar(50) DEFAULT NULL,
+  `salt` varchar(255) DEFAULT NULL,
+  `user_role` int(11) DEFAULT NULL,
+  `s_sex` tinyint(1) DEFAULT '0',
+  `d_id` int(11) DEFAULT NULL,
+  `clzss_id` int(11) DEFAULT NULL,
+  `grade` int(11) DEFAULT NULL,
+  `s_class` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`s_id`),
+  KEY `FK_S_D` (`d_id`),
+  CONSTRAINT `FK_S_D` FOREIGN KEY (`d_id`) REFERENCES `t_department` (`d_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_student
+-- ----------------------------
+INSERT INTO `t_student` VALUES ('1', '211106402', '王荣坡', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('25', '211106378', '陈洪玮', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('26', '211106379', '陈建俊', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('27', '211106380', '陈建旺', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('28', '211106381', '陈建增', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('29', '211106393', '李娜端', '', null, '3', '1', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('30', '211106405', '谢能炎', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('31', '211106412', '余双', '', null, '3', '1', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('32', '211106409', '杨琴霞', '', null, '3', '1', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('33', '211106413', '余永航', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('34', '211106401', '测试', '', null, '3', '0', '2', null, '2011', '3');
+INSERT INTO `t_student` VALUES ('35', '211106001', '张三', '', null, '3', '0', '2', null, '2012', '1');
+INSERT INTO `t_student` VALUES ('36', '211106002', '李四', '', null, '3', '1', '3', null, '2012', '2');
+INSERT INTO `t_student` VALUES ('37', '211106003', '王五', '', null, '3', '0', '2', null, '2012', '3');
+INSERT INTO `t_student` VALUES ('38', '211106004', '赵六', '', null, '3', '0', '2', null, '2012', '2');
+INSERT INTO `t_student` VALUES ('39', '211106005', '孙七', '', null, '3', '0', '2', null, '2012', '3');
+INSERT INTO `t_student` VALUES ('40', '211106006', '周八', '', null, '3', '1', '3', null, '2012', '1');
+INSERT INTO `t_student` VALUES ('41', '211106007', '吴九', '', null, '3', '0', '2', null, '2012', '2');
+INSERT INTO `t_student` VALUES ('42', '211106008', '郑十', '', null, '3', '1', '3', null, '2012', '3');
+INSERT INTO `t_student` VALUES ('43', '211101111', 'ceshi', '123456', null, '3', '0', '2', null, '2011', '2');
+
+
+
+-- ----------------------------
+-- Table structure for t_work
+-- ----------------------------
+DROP TABLE IF EXISTS `t_work`;
+CREATE TABLE `t_work` (
+  `w_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_tch_id` int(11) DEFAULT NULL,
+  `clzss_id` int(11) DEFAULT NULL,
+  `w_work_name` varchar(50) DEFAULT NULL,
+  `w_add_time` datetime DEFAULT NULL,
+  `w_work_equirement` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`w_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_work
+-- ----------------------------
+INSERT INTO `t_work` VALUES ('1', null, null, '做一个网上商城的项目。', '2015-04-17 20:55:06', '使用SpringMVC');
+
+
+
+-- ----------------------------
+-- Table structure for t_work_info
+-- ----------------------------
+DROP TABLE IF EXISTS `t_work_info`;
+CREATE TABLE `t_work_info` (
+  `wi_id` int(11) NOT NULL AUTO_INCREMENT,
+  `w_id` int(11) DEFAULT NULL,
+  `s_id` int(11) DEFAULT NULL,
+  `wi_add_time` datetime DEFAULT NULL,
+  `w_i_score` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`wi_id`),
+  KEY `FK_WORKINFO_WORK` (`w_id`),
+  KEY `FK_WORKINFO_STUDENT` (`s_id`),
+  CONSTRAINT `FK_WORKINFO_STUDENT` FOREIGN KEY (`s_id`) REFERENCES `t_student` (`s_id`),
+  CONSTRAINT `FK_WORKINFO_WORK` FOREIGN KEY (`w_id`) REFERENCES `t_work` (`w_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_work_info
+-- ----------------------------
+INSERT INTO `t_work_info` VALUES ('1', '1', '1', '2015-04-17 20:56:12', '50');
+INSERT INTO `t_work_info` VALUES ('2', '1', '31', '2015-04-17 21:05:43', '50');

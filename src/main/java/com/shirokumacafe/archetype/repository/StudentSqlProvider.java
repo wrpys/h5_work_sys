@@ -69,8 +69,12 @@ public class StudentSqlProvider {
             VALUES("d_id", "#{dId,jdbcType=INTEGER}");
         }
         
+        if (record.getClzssId() != null) {
+            VALUES("clzss_id", "#{clzssId,jdbcType=INTEGER}");
+        }
+        
         if (record.getGrade() != null) {
-            VALUES("grade", "#{grade,jdbcType=VARCHAR}");
+            VALUES("grade", "#{grade,jdbcType=INTEGER}");
         }
         
         if (record.getsClass() != null) {
@@ -94,6 +98,7 @@ public class StudentSqlProvider {
         SELECT("user_role");
         SELECT("s_sex");
         SELECT("d_id");
+        SELECT("clzss_id");
         SELECT("grade");
         SELECT("s_class");
         FROM("t_student");
@@ -145,8 +150,12 @@ public class StudentSqlProvider {
             SET("d_id = #{record.dId,jdbcType=INTEGER}");
         }
         
+        if (record.getClzssId() != null) {
+            SET("clzss_id = #{record.clzssId,jdbcType=INTEGER}");
+        }
+        
         if (record.getGrade() != null) {
-            SET("grade = #{record.grade,jdbcType=VARCHAR}");
+            SET("grade = #{record.grade,jdbcType=INTEGER}");
         }
         
         if (record.getsClass() != null) {
@@ -169,7 +178,8 @@ public class StudentSqlProvider {
         SET("user_role = #{record.userRole,jdbcType=INTEGER}");
         SET("s_sex = #{record.sSex,jdbcType=BIT}");
         SET("d_id = #{record.dId,jdbcType=INTEGER}");
-        SET("grade = #{record.grade,jdbcType=VARCHAR}");
+        SET("clzss_id = #{record.clzssId,jdbcType=INTEGER}");
+        SET("grade = #{record.grade,jdbcType=INTEGER}");
         SET("s_class = #{record.sClass,jdbcType=VARCHAR}");
         
         StudentExample example = (StudentExample) parameter.get("example");
@@ -209,8 +219,12 @@ public class StudentSqlProvider {
             SET("d_id = #{dId,jdbcType=INTEGER}");
         }
         
+        if (record.getClzssId() != null) {
+            SET("clzss_id = #{clzssId,jdbcType=INTEGER}");
+        }
+        
         if (record.getGrade() != null) {
-            SET("grade = #{grade,jdbcType=VARCHAR}");
+            SET("grade = #{grade,jdbcType=INTEGER}");
         }
         
         if (record.getsClass() != null) {
