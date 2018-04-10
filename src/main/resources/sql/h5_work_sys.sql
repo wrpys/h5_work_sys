@@ -288,7 +288,7 @@ CREATE TABLE `t_stu_question` (
   `sq_id` int(11) NOT NULL AUTO_INCREMENT,
   `wi_id` int(11) DEFAULT NULL COMMENT 'work_info_id',
   `q_id` int(11) DEFAULT NULL COMMENT '问题ID',
-  `q_answert` varchar(255) DEFAULT NULL,
+  `q_answer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`sq_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

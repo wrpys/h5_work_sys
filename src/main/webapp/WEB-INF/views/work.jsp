@@ -81,8 +81,12 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
         var columns = [
                 { title : '作业名称', width: 150, dataIndex: 'wWorkName'},
                 { title : '布置时间', width: 150, dataIndex: 'wAddTime'},
-                { title : '作业要求', width: 400, dataIndex: 'wWorkRequirement'},
-                { title: '操作', width: 300, dataIndex: 'wId',renderer : function(value,obj){
+                { title : '作业要求', width: 300, dataIndex: 'wWorkRequirement'},
+                { title: '添加题目', width: 200, dataIndex: 'qId',renderer : function(value,obj){
+                    var returnStr = '<span class="grid-command addQuestionInfo">添加题目</span>';
+                    return returnStr;
+                }},
+                { title: '操作', width: 200, dataIndex: 'wId',renderer : function(value,obj){
                     var returnStr = '<span class="grid-command searchWorkInfo">查看提交情况</span>';
                     return returnStr;
                 }}
@@ -210,25 +214,6 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
             });
         }
         /*****************************操作及查看作业提交情况******************************************************/
-        
-        var Grid = Grid,
-             Store = Data.Store;
-        var  WorkInfoColumns = [
-                    { title: '姓名', width: 80, dataIndex: 's_name'},
-                    { title: '年级', width: 200, dataIndex: 'grade'},
-                    { title: '班级', width: 200, dataIndex: 'clzss'},
-                    { title: '提交时间', width: 130, dataIndex: 'wi_add_time'},
-                    {
-                        title:"成绩", width: 130,dataIndex: 'w_i_score',
-                        renderer: function (value, row, index) {
-                        	if(value=null || typeof(value) == "undefined"){
-                        		return "未提交";
-                        	}else{
-                        		return row.w_i_score;
-                        	}
-                        }
-                    }
-                ];
         //创建弹出框（学生选课）
         var WorkInfoDialog;
         function createWorkInfoDialog(){

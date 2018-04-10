@@ -90,7 +90,11 @@
                         		return row.w_i_score;
                         	}
                         }
-                    }
+                    },
+                    { title: '操作', width: 200, dataIndex: 'sq_id',renderer : function(value,obj){
+                        var returnStr = '<span class="grid-command searchStuQuestionInfo">查看答题详情</span>';
+                        return returnStr;
+                    }}
                 ];
         	store = Search.createStore('${ctx}/work/getWorkAnalysis?wId=' + "${wId}" +"&clzssId="+"${clzssId}",{pageSize:10}),
         	editing = new BUI.Grid.Plugins.DialogEditing({
