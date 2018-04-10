@@ -2,7 +2,9 @@ package com.shirokumacafe.archetype.service;
 
 import com.github.pagehelper.PageHelper;
 import com.shirokumacafe.archetype.common.Configs;
+import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.common.mybatis.Page;
+import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Student;
 import com.shirokumacafe.archetype.entity.StudentExt;
 import com.shirokumacafe.archetype.repository.StudentMapper;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 学生信息
@@ -24,6 +27,8 @@ public class StudentService {
 
     @Autowired
     private StudentMapper studentMapper;
+    @Autowired
+    private Users sessionUsers;
 
     /**
      * 增加学生  默认密码123456
@@ -77,6 +82,21 @@ public class StudentService {
         student.setsId(sId);
         student.setsPassword(Configs.DEFAULT_PASSWORD);
         studentMapper.updateByPrimaryKeySelective(student);
+    }
+
+    /*****************************h5前台**************************************************************/
+
+    public Map checkLogin(String sNo, String sPassword) {
+        List<Student> students = studentMapper.selectBySNo(sNo);
+        if (students == null || students.isEmpty()) {
+            return Responses.writeFailAndMsg("学号不存在.");
+        }
+        Student student = students.get(0);
+        if (!student.getsPassword().equals(sPassword)) {
+            return Responses.writeFailAndMsg("学号/密码错误.");
+        }
+        sessionUsers.setStudent(student);
+        return Responses.writeSuccess();
     }
 
 }

@@ -172,4 +172,11 @@
         </where>
     </select>
 
+    <select id="selectBySNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student
+        where s_no = #{sNo,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

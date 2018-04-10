@@ -17,6 +17,9 @@
     <link href="${ctx}/static/styles/com.css" rel="stylesheet" type="text/css" />
 
     <script>
+        if (top.location != self.location) {
+            top.location = self.location;
+        }
         $(function(){
             var _height = $(window).height();
             $('.login-l').height(_height);

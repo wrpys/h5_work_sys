@@ -44,7 +44,6 @@ public class UserService {
     private Users sessionUsers;
 
     public Map checkLogin(String username, String password) {
-        Map result = new HashMap();
         ViewUserExample example = new ViewUserExample();
         ViewUserExample.Criteria criteria = example.createCriteria();
         criteria.andLoginNameEqualTo(username);

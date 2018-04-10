@@ -59,11 +59,18 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/front/**" />
             <mvc:exclude-mapping path="/static/**" />
             <mvc:exclude-mapping path="/WEB-INF/views/**" />
             <mvc:exclude-mapping path="/WEB-INF/layouts/**" />
             <mvc:exclude-mapping path="/WEB-INF/tags/**" />
             <bean class="com.shirokumacafe.archetype.common.filter.LoginInterceptor"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/front/**"/>
+            <mvc:exclude-mapping path="/static/**" />
+            <mvc:exclude-mapping path="/WEB-INF/views/front/**" />
+            <bean class="com.shirokumacafe.archetype.common.filter.FrontLoginInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
 

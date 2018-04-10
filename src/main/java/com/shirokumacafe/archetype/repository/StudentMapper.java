@@ -24,4 +24,6 @@ public interface StudentMapper {
     List<StudentExt> selectStudentExtByParams(StudentExt studentExt);
 
     List<Student> selectByParams(Student student);
+
+    List<Student> selectBySNo(String sNo);
 }
