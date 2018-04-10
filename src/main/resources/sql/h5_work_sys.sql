@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50625
 File Encoding         : 65001
 
-Date: 2018-04-10 19:32:49
+Date: 2018-04-10 21:25:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -286,7 +286,8 @@ INSERT INTO `t_student` VALUES ('45', '211806102', '测试2', '123456', null, '3
 DROP TABLE IF EXISTS `t_stu_question`;
 CREATE TABLE `t_stu_question` (
   `sq_id` int(11) NOT NULL AUTO_INCREMENT,
-  `wi_id` int(11) DEFAULT NULL COMMENT 'work_info_id',
+  `s_id` int(11) DEFAULT NULL COMMENT 'student_id',
+  `w_id` int(11) DEFAULT NULL COMMENT 'work_id',
   `q_id` int(11) DEFAULT NULL COMMENT '问题ID',
   `q_answer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`sq_id`)
