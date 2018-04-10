@@ -519,37 +519,33 @@ CREATE TABLE `t_student` (
   `salt` varchar(255) DEFAULT NULL,
   `user_role` int(11) DEFAULT NULL,
   `s_sex` tinyint(1) DEFAULT '0',
-  `d_id` int(11) DEFAULT NULL,
-  `grade` int(11) DEFAULT NULL,
   `s_class` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`s_id`),
-  KEY `FK_S_D` (`d_id`),
-  CONSTRAINT `FK_S_D` FOREIGN KEY (`d_id`) REFERENCES `t_department` (`d_id`)
+  PRIMARY KEY (`s_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_student
 -- ----------------------------
-INSERT INTO `t_student` VALUES ('1', '211106402', '王荣坡', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('25', '211106378', '陈洪玮', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('26', '211106379', '陈建俊', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('27', '211106380', '陈建旺', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('28', '211106381', '陈建增', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('29', '211106393', '李娜端', '', null, '3', '1', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('30', '211106405', '谢能炎', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('31', '211106412', '余双', '', null, '3', '1', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('32', '211106409', '杨琴霞', '', null, '3', '1', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('33', '211106413', '余永航', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('34', '211106401', '测试', '', null, '3', '0', '2', '2011', '3');
-INSERT INTO `t_student` VALUES ('35', '211106001', '张三', '', null, '3', '0', '2', '2012', '1');
-INSERT INTO `t_student` VALUES ('36', '211106002', '李四', '', null, '3', '1', '3', '2012', '2');
-INSERT INTO `t_student` VALUES ('37', '211106003', '王五', '', null, '3', '0', '2', '2012', '3');
-INSERT INTO `t_student` VALUES ('38', '211106004', '赵六', '', null, '3', '0', '2', '2012', '2');
-INSERT INTO `t_student` VALUES ('39', '211106005', '孙七', '', null, '3', '0', '2', '2012', '3');
-INSERT INTO `t_student` VALUES ('40', '211106006', '周八', '', null, '3', '1', '3', '2012', '1');
-INSERT INTO `t_student` VALUES ('41', '211106007', '吴九', '', null, '3', '0', '2', '2012', '2');
-INSERT INTO `t_student` VALUES ('42', '211106008', '郑十', '', null, '3', '1', '3', '2012', '3');
-INSERT INTO `t_student` VALUES ('43', '211101111', 'ceshi', '123456', null, '3', '0', '2', '2011', '2');
+INSERT INTO `t_student` VALUES ('1', '211106402', '王荣坡', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('25', '211106378', '陈洪玮', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('26', '211106379', '陈建俊', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('27', '211106380', '陈建旺', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('28', '211106381', '陈建增', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('29', '211106393', '李娜端', '', null, '3', '1', '3');
+INSERT INTO `t_student` VALUES ('30', '211106405', '谢能炎', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('31', '211106412', '余双', '', null, '3', '1', '3');
+INSERT INTO `t_student` VALUES ('32', '211106409', '杨琴霞', '', null, '3', '1', '3');
+INSERT INTO `t_student` VALUES ('33', '211106413', '余永航', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('34', '211106401', '测试', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('35', '211106001', '张三', '', null, '3', '0', '1');
+INSERT INTO `t_student` VALUES ('36', '211106002', '李四', '', null, '3', '1', '2');
+INSERT INTO `t_student` VALUES ('37', '211106003', '王五', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('38', '211106004', '赵六', '', null, '3', '0', '2');
+INSERT INTO `t_student` VALUES ('39', '211106005', '孙七', '', null, '3', '0', '3');
+INSERT INTO `t_student` VALUES ('40', '211106006', '周八', '', null, '3', '1', '1');
+INSERT INTO `t_student` VALUES ('41', '211106007', '吴九', '', null, '3', '0', '2');
+INSERT INTO `t_student` VALUES ('42', '211106008', '郑十', '', null, '3', '1', '3');
+INSERT INTO `t_student` VALUES ('43', '211101111', 'ceshi', '123456', null, '3', '0', '2');
 
 -- ----------------------------
 -- Table structure for t_student_jsp
