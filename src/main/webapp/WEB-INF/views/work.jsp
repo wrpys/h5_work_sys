@@ -72,9 +72,7 @@
 
     <%--上课时间-出勤和作业提交--%>
     <div id="J_WorkInfoContent" class="hide">
-        <div class="panel panelHeight">
-            <div id="J_WorkInfoContentGrid" ></div>
-        </div>
+    	<iframe id="J_WorkInfoContentGrid" src="#" width="100%" height="100%" frameborder="0" style="border: none;"></iframe>
     </div>
 
 </div>
@@ -218,42 +216,19 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
         var  WorkInfoColumns = [
                     { title: '姓名', width: 80, dataIndex: 's_name'},
                     { title: '年级', width: 200, dataIndex: 'grade'},
-                    { title: '班级', width: 200, dataIndex: 's_class'},
+                    { title: '班级', width: 200, dataIndex: 'clzss'},
                     { title: '提交时间', width: 130, dataIndex: 'wi_add_time'},
                     {
                         title:"成绩", width: 130,dataIndex: 'w_i_score',
-                        formatter: function (value, row, index) {
-                        	debugger;
+                        renderer: function (value, row, index) {
                         	if(value=null || typeof(value) == "undefined"){
                         		return "未提交";
                         	}else{
-                        		return value;
+                        		return row.w_i_score;
                         	}
                         }
                     }
                 ];
-        var WorkInfoParams = {
-            wId:null,
-            clzssId:null,
-            limit:10
-        };
-        var WorkInfoStore = new Store({
-                    url : '${ctx}/work/getWorkAnalysis',
-                    params : WorkInfoParams
-                }),
-                WorkInfoGrid = new Grid.Grid({
-                    render:'#J_WorkInfoContentGrid',
-                    columns : WorkInfoColumns,
-                    itemStatusFields : { //设置数据跟状态的对应关系
-                        selected : 'selected',
-                        disabled : 'disabled'
-                    },
-                    store : WorkInfoStore,
-                    bbar:{
-                        pagingBar:true
-                    }
-                });
-
         //创建弹出框（学生选课）
         var WorkInfoDialog;
         function createWorkInfoDialog(){
@@ -267,21 +242,15 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                 }
             });
         }
-
-
         grid.on('cellclick',function  (ev) {
             var record = ev.record, //点击行的记录
                     field = ev.field, //点击对应列的dataIndex
                     target = $(ev.domTarget); //点击的元素
             if(target.hasClass('searchWorkInfo')){
-                console.log("ok")
                 if(!WorkInfoDialog){
                     WorkInfoDialog = createWorkInfoDialog();
-                    WorkInfoGrid.render();
                 }
-                WorkInfoParams.wId = record.wId;
-                WorkInfoParams.clzssId = record.clzssId;
-                WorkInfoStore.load(WorkInfoParams);
+                $("#J_WorkInfoContentGrid").attr("src", "${ctx}/work/toWorkAnalysis?wId=" + record.wId + "&clzssId=" + record.clzssId);
                 WorkInfoDialog.show();
             }
         });

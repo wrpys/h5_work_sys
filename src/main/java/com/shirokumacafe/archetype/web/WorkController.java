@@ -67,8 +67,8 @@ public class WorkController {
      */
     @RequestMapping(value = "list",method = RequestMethod.GET)
     @ResponseBody
-    public Page<Work> list(Work work, Page<Work> page){
-        return workService.list(work, page);
+    public String list(Work work, Page<Work> page){
+        return Responses.writeJson(workService.list(work, page));
     }
     
     /**
@@ -120,12 +120,12 @@ public class WorkController {
      * @return
      */
     @RequestMapping("toWorkAnalysis")
-    public String toWorkAnalysis(Model model, Work work) {
-        model.addAttribute("clzss_id", work.getClzssId());
-        model.addAttribute("workId", work.getwId());
-        return "getWorkAnalysis";
+    public String toAnswer(Model model, Integer wId, Integer clzssId) {
+        model.addAttribute("wId", wId);
+        model.addAttribute("clzssId", clzssId);
+        return "workAnalysis";
     }
-
+    
     /**
      * 统计分析作业情况
      * @author CZX
@@ -134,12 +134,12 @@ public class WorkController {
      */
     @RequestMapping(value = "getWorkAnalysis",method = RequestMethod.GET)
     @ResponseBody
-    public Page<Student> getWorkAnalysis(Work work,Page<Student> page){
+    public String getWorkAnalysis(Work work,Page<Student> page){
     	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
     	List<Student> stuList = workService.getWorkAnalysis(work);
     	page.setRows(stuList);
         page.setResults((int)pageHelper.getTotal());
-        return page;
+        return Responses.writeJson(page);
     }
 
 }
