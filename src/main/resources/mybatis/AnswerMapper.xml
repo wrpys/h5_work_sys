@@ -4,10 +4,11 @@
   <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.Answer" >
     <id column="a_id" property="aId" jdbcType="INTEGER" />
     <result column="a_answer" property="aAnswer" jdbcType="VARCHAR" />
+    <result column="a_correct" property="aCorrect" jdbcType="INTEGER" />
     <result column="q_id" property="qId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    a_id, a_answer, q_id
+    a_id, a_answer, a_correct, q_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,9 +21,9 @@
     where a_id = #{aId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Answer" >
-    insert into t_answer (a_id, a_answer, q_id
+    insert into t_answer (a_id, a_answer, a_correct, q_id
       )
-    values (#{aId,jdbcType=INTEGER}, #{aAnswer,jdbcType=VARCHAR}, #{qId,jdbcType=INTEGER}
+    values (#{aId,jdbcType=INTEGER}, #{aAnswer,jdbcType=VARCHAR}, #{aCorrect,jdbcType=INTEGER}, #{qId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.Answer" >
@@ -33,6 +34,9 @@
       </if>
       <if test="aAnswer != null" >
         a_answer,
+      </if>
+      <if test="aCorrect != null" >
+        a_correct,
       </if>
       <if test="qId != null" >
         q_id,
@@ -45,6 +49,9 @@
       <if test="aAnswer != null" >
         #{aAnswer,jdbcType=VARCHAR},
       </if>
+      <if test="aCorrect != null" >
+        #{aCorrect,jdbcType=VARCHAR},
+      </if>
       <if test="qId != null" >
         #{qId,jdbcType=INTEGER},
       </if>
@@ -56,6 +63,9 @@
       <if test="aAnswer != null" >
         a_answer = #{aAnswer,jdbcType=VARCHAR},
       </if>
+      <if test="aCorrect != null" >
+        a_correct = #{aCorrect,jdbcType=VARCHAR},
+      </if>
       <if test="qId != null" >
         q_id = #{qId,jdbcType=INTEGER},
       </if>
@@ -65,6 +75,7 @@
   <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.Answer" >
     update t_answer
     set a_answer = #{aAnswer,jdbcType=VARCHAR},
+      a_correct = #{aCorrect,jdbcType=INTEGER},
       q_id = #{qId,jdbcType=INTEGER}
     where a_id = #{aId,jdbcType=INTEGER}
   </update>

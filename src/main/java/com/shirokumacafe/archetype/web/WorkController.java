@@ -1,8 +1,19 @@
 package com.shirokumacafe.archetype.web;
 
-import java.util.List;
-import java.util.Map;
-
+import com.github.pagehelper.PageHelper;
+import com.shirokumacafe.archetype.common.Configs;
+import com.shirokumacafe.archetype.common.mybatis.Page;
+import com.shirokumacafe.archetype.common.utilities.Responses;
+import com.shirokumacafe.archetype.entity.StuQuestion;
+import com.shirokumacafe.archetype.entity.StuQuestionExt;
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.User;
+import com.shirokumacafe.archetype.entity.Work;
+import com.shirokumacafe.archetype.entity.WorkInfo;
+import com.shirokumacafe.archetype.entity.WorkQuestion;
+import com.shirokumacafe.archetype.entity.WorkQuestionExt;
+import com.shirokumacafe.archetype.service.UserService;
+import com.shirokumacafe.archetype.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageHelper;
-import com.shirokumacafe.archetype.common.Configs;
-import com.shirokumacafe.archetype.common.mybatis.Page;
-import com.shirokumacafe.archetype.common.utilities.Responses;
-import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.User;
-import com.shirokumacafe.archetype.entity.Work;
-import com.shirokumacafe.archetype.entity.WorkInfo;
-import com.shirokumacafe.archetype.service.UserService;
-import com.shirokumacafe.archetype.service.WorkService;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 作业管理：出作业题，查看作业结果，统计分析作业情况
@@ -140,6 +143,46 @@ public class WorkController {
     	page.setRows(stuList);
         page.setResults((int)pageHelper.getTotal());
         return Responses.writeJson(page);
+    }
+
+    @RequestMapping("toWorkQuestion")
+    public String toWorkQuestion(Model model, Integer wId) {
+        model.addAttribute("wId", wId);
+        return "workQuestion";
+    }
+
+    @RequestMapping(value = "workQuestionList",method = RequestMethod.GET)
+    @ResponseBody
+    public String workQuestionList(WorkQuestionExt workQuestionExt, Page<WorkQuestionExt> page) {
+        Page<WorkQuestionExt> workQuestionExtPage = workService.findWorkQuestion(workQuestionExt, page);
+        return Responses.writeJson(workQuestionExtPage);
+    }
+
+    @RequestMapping(value = "addWorkQuestion",method = RequestMethod.POST)
+    @ResponseBody
+    public Map addWorkQuestion(WorkQuestion workQuestion) {
+        return workService.addWorkQuestion(workQuestion);
+    }
+
+    @RequestMapping(value = "deleteWorkQuestion",method = RequestMethod.POST)
+    @ResponseBody
+    public Map deleteWorkQuestion(Integer wqId) {
+        workService.deleteWorkQuestion(wqId);
+        return Responses.writeSuccess();
+    }
+
+    @RequestMapping("toQuestionDesc")
+    public String toQuestionDesc(Model model, Integer wId, Integer sId) {
+        model.addAttribute("wId", wId);
+        model.addAttribute("sId", sId);
+        return "questionDesc";
+    }
+
+    @RequestMapping("getQuestionDesc")
+    @ResponseBody
+    public String getQuestionDesc(Integer wId, Integer sId) {
+        List<StuQuestionExt> stuQuestionExts = workService.getQuestionDesc(wId, sId);
+        return Responses.writeJson(stuQuestionExts);
     }
 
 }

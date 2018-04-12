@@ -4,62 +4,57 @@
 <html>
 <head>
     <%@include file="../layouts/default.jsp"%>
+    <style>
+        .importBtn{display: none;}
+    </style>
 </head>
 <body>
 <div class="container" style="height:auto;">
+    <form id="searchForm" class="form-horizontal">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">题目标题：</label>
+                <div class="controls">
+                    <input type="text" class="control-text" name="qTitle">
+                </div>
+            </div>
+            <div class="span3 offset2">
+                <button type="button" id="btnSearch" class="button button-primary">搜索</button>
+            </div>
+        </div>
+    </form>
+
     <div class="search-grid-container">
         <div id="grid"></div>
     </div>
 
     <div id="content" class="hide">
         <form id="J_Form" class="form-horizontal">
-            <input type="hidden" name="aId">
-            <input type="hidden" name="qId">
-            <c:if test="${qType==1}">
             <div class="row">
                 <div class="control-group span8">
-                    <label class="control-label"><s>*</s>答案：</label>
-                     <div class="controls">
-                        <input name="aAnswer" type="text" data-rules="{required:true}" class="input-normal control-text">
-                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="control-group span8">
-                    <label class="control-label">正确答案：</label>
+                    <label class="control-label"><s>*</s>题目ID：</label>
                     <div class="controls">
-                        <label class="radio"><input name="aCorrect" id="aCorrect1" type="radio" value="1" checked />是</label>&nbsp;&nbsp;&nbsp;
-                        <label class="radio"><input name="aCorrect" id="aCorrect2" type="radio" value="0"/>否</label>
+                        <input name="wId" type="hidden">
+                        <input name="qId" type="text" data-rules="{required:true}" class="input-normal control-text">
                     </div>
                 </div>
             </div>
-            </c:if>
-                <c:if test="${qType==2}">
-                <div class="row">
-                    <label class="control-label"><s>*</s>答案：</label>
-                    <div class="controls control-row2">
-                        <textarea name="aAnswer" class="input-large" type="text"></textarea>
-                    </div>
-                    <input type="hidden" name="aCorrect" id="aCorrect">
-                </div>
-                </c:if>
         </form>
     </div>
 
 </div>
 <br><br><br><br>
 <script type="text/javascript">
-    var qId = "${qId}";
-    var qType = "${qType}";
+    var wId = "${wId}";
     BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/overlay'],function (Search,List,Picker,Select,Overlay) {
         var
-                enumType = {1:"是",0:"否"},
                 columns = [
-                    { title: 'ID', width: 100, dataIndex: 'aId'},
-                    { title: '题目', width: 500, dataIndex: 'aAnswer'},
-                    { title: '是否为正常答案', width: 80, dataIndex: 'aCorrect',renderer:BUI.Grid.Format.enumRenderer(enumType)},
+                    { title: '作业ID', width: 100, dataIndex: 'wId'},
+                    { title: '作业名称', width: 250, dataIndex: 'wWorkName'},
+                    { title: '题目ID', width: 100, dataIndex: 'qId'},
+                    { title: '题目标题', width: 250, dataIndex: 'qTitle'}
                 ],
-                store = Search.createStore('${ctx}/questionAnswer/answerList?qId=' + qId,{pageSize:10}),
+                store = Search.createStore('${ctx}/work/workQuestionList?wId=' + wId,{pageSize:10}),
                 editing = new BUI.Grid.Plugins.DialogEditing({
                     contentId : 'content',
                     triggerCls : 'btn-edit',
@@ -86,12 +81,6 @@
                                 }
                             },{
                                 btnCls: 'button button-small',
-                                text: '<i class="icon-edit"></i>修改',
-                                listeners : {
-                                    'click' : editFunction
-                                }
-                            },{
-                                btnCls: 'button button-small',
                                 text: '<i class="icon-remove"></i>删除',
                                 listeners : {
                                     'click' : delFunction
@@ -112,50 +101,29 @@
         })
 
         function addFunction(){
-            editing.add({qId: qId});
-            if (qType == "1") {
-                $("#aCorrect2").prop("checked",true);
-            } else {
-                $("#aCorrect").val(1);
-            }
-        }
-        function editFunction(){
-            var selections = grid.getSelection();
-            if(selections.length!=1){
-                BUI.Message.Alert("请选中一条记录！");
-                return;
-            }
-            editing.edit(selections[0]);
-            if (qType == "1") {
-                if(selections[0].aCorrect==1){
-                    $("#aCorrect1").prop("checked",true);
-                }else{
-                    $("#aCorrect2").prop("checked",true);
-                }
-            } else {
-                $("#aCorrect").val(1);
-            }
-
+            editing.add({state:1,wId:wId});
         }
 
         function delFunction(){
             var selections = grid.getSelection();
-            if(selections.length==1){
-                BUI.Message.Confirm('确认要删除选中的记录么？',function(){
-                    $.ajax({
-                        url : '${ctx}/questionAnswer/deleteAnswer',
-                        type:'post',
-                        dataType : 'json',
-                        data : {aId : selections[0].aId},
-                        success : function(data){
-                            if(data.success){ //删除成功
-                                search.load();
-                            }else{ //删除失败
-                                BUI.Message.Alert(data.msg,'error');
+            if(selections.length>=1){
+                if(selections.length){
+                    BUI.Message.Confirm('确认要删除选中的记录么？',function(){
+                        $.ajax({
+                            url : '${ctx}/work/deleteWorkQuestion',
+                            type:'post',
+                            dataType : 'json',
+                            data : {wqId : selections[0].wqId},
+                            success : function(data){
+                                if(data.success){ //删除成功
+                                    search.load();
+                                }else{ //删除失败
+                                    BUI.Message.Alert(data.msg,'error');
+                                }
                             }
-                        }
-                    });
-                },'question');
+                        });
+                    },'question');
+                }
             }else{
                 BUI.Message.Alert("请选择一条记录！");
             }
@@ -164,7 +132,7 @@
         function submit(record,editor){
             console.log(record);
             $.ajax({
-                url : record.aId==''?'${ctx}/questionAnswer/addAnswer':'${ctx}/questionAnswer/updateAnswer',
+                url : '${ctx}/work/addWorkQuestion',
                 dataType : 'json',
                 type:'post',
                 data : record,
@@ -179,8 +147,8 @@
                 }
             });
         }
-
     });//seajs end
+
 </script>
 <!-- script end -->
 </body>

@@ -1,37 +1,43 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : test
-Source Server Version : 50625
+Source Server         : loc
+Source Server Version : 50528
 Source Host           : localhost:3306
 Source Database       : h5_work_sys
 
 Target Server Type    : MYSQL
-Target Server Version : 50625
+Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2018-04-10 21:25:25
+Date: 2018-04-12 16:41:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for t_answer
+-- Table structure for `t_answer`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_answer`;
 CREATE TABLE `t_answer` (
   `a_id` int(11) NOT NULL AUTO_INCREMENT,
   `a_answer` varchar(255) DEFAULT NULL,
+  `a_correct` int(1) NOT NULL,
   `q_id` int(11) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_answer
 -- ----------------------------
+INSERT INTO `t_answer` VALUES ('1', '苹果', '0', '1');
+INSERT INTO `t_answer` VALUES ('2', '橘子', '1', '1');
+INSERT INTO `t_answer` VALUES ('4', '正确答案是。。。', '1', '2');
+INSERT INTO `t_answer` VALUES ('5', '芦柑', '0', '3');
+INSERT INTO `t_answer` VALUES ('6', '橙子', '1', '3');
 
 -- ----------------------------
--- Table structure for t_clzss
+-- Table structure for `t_clzss`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_clzss`;
 CREATE TABLE `t_clzss` (
@@ -82,7 +88,7 @@ INSERT INTO `t_clzss` VALUES ('35', '5', '6');
 INSERT INTO `t_clzss` VALUES ('36', '6', '6');
 
 -- ----------------------------
--- Table structure for t_menu
+-- Table structure for `t_menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
@@ -116,7 +122,7 @@ INSERT INTO `t_menu` VALUES ('35', 'workManagement', '23', '作业管理', 'work
 INSERT INTO `t_menu` VALUES ('36', 'questionAnswer', '23', '题库管理', 'questionAnswer', '1', '1');
 
 -- ----------------------------
--- Table structure for t_message
+-- Table structure for `t_message`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_message`;
 CREATE TABLE `t_message` (
@@ -147,7 +153,7 @@ INSERT INTO `t_message` VALUES ('10', '9', '2', 'arraylist是线程不安全的'
 INSERT INTO `t_message` VALUES ('11', '10', '2', '好的', '2018-04-10 09:22:57', '1', '2', '2');
 
 -- ----------------------------
--- Table structure for t_question
+-- Table structure for `t_question`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_question`;
 CREATE TABLE `t_question` (
@@ -161,7 +167,7 @@ CREATE TABLE `t_question` (
 -- Records of t_question
 -- ----------------------------
 INSERT INTO `t_question` VALUES ('1', '你喜欢吃的水果？', '1');
-INSERT INTO `t_question` VALUES ('2', '你喜欢吃的水果2？', '1');
+INSERT INTO `t_question` VALUES ('2', '你喜欢吃的水果2？', '2');
 INSERT INTO `t_question` VALUES ('3', '你喜欢吃的水果？3', '1');
 INSERT INTO `t_question` VALUES ('4', '你喜欢吃的水果？4', '1');
 INSERT INTO `t_question` VALUES ('5', '你喜欢吃的水果？5', '1');
@@ -173,7 +179,7 @@ INSERT INTO `t_question` VALUES ('10', '你喜欢吃的水果？10', '1');
 INSERT INTO `t_question` VALUES ('11', '你喜欢吃的水果？11', '1');
 
 -- ----------------------------
--- Table structure for t_role
+-- Table structure for `t_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
@@ -196,11 +202,11 @@ CREATE TABLE `t_role` (
 -- Records of t_role
 -- ----------------------------
 INSERT INTO `t_role` VALUES ('1', 'admin', '管理员', null, '拥有最高权限。', '1', '1', '1', '2015-03-05 09:47:47', '2018-04-10 19:04:42');
-INSERT INTO `t_role` VALUES ('2', 'teacher', '教师', null, '拥有一些信息之类的管理。', '1', '1', '1', '2015-03-05 11:19:05', '2018-04-09 16:02:46');
+INSERT INTO `t_role` VALUES ('2', 'teacher', '教师', null, '拥有一些信息之类的管理。', '1', '1', '1', '2015-03-05 11:19:05', '2018-04-12 11:36:35');
 INSERT INTO `t_role` VALUES ('3', 'student', '学生', null, '不允许进入后台。', '1', '1', null, '2015-03-05 11:23:56', null);
 
 -- ----------------------------
--- Table structure for t_role_permission
+-- Table structure for `t_role_permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_permission`;
 CREATE TABLE `t_role_permission` (
@@ -213,17 +219,6 @@ CREATE TABLE `t_role_permission` (
 -- ----------------------------
 INSERT INTO `t_role_permission` VALUES ('3', 'zixun:');
 INSERT INTO `t_role_permission` VALUES ('3', 'notice:');
-INSERT INTO `t_role_permission` VALUES ('2', 'info:');
-INSERT INTO `t_role_permission` VALUES ('2', 'student:');
-INSERT INTO `t_role_permission` VALUES ('2', 'course:');
-INSERT INTO `t_role_permission` VALUES ('2', 'toStudentAttendanceWork:');
-INSERT INTO `t_role_permission` VALUES ('2', 'attendance:');
-INSERT INTO `t_role_permission` VALUES ('2', 'work:');
-INSERT INTO `t_role_permission` VALUES ('2', 'zixun:');
-INSERT INTO `t_role_permission` VALUES ('2', 'message:');
-INSERT INTO `t_role_permission` VALUES ('2', 'gongneng:');
-INSERT INTO `t_role_permission` VALUES ('2', 'questionMessage:');
-INSERT INTO `t_role_permission` VALUES ('2', 'toDiscuss:');
 INSERT INTO `t_role_permission` VALUES ('1', 'info:');
 INSERT INTO `t_role_permission` VALUES ('1', 'student:');
 INSERT INTO `t_role_permission` VALUES ('1', 'work:');
@@ -238,9 +233,19 @@ INSERT INTO `t_role_permission` VALUES ('1', 'role:');
 INSERT INTO `t_role_permission` VALUES ('1', 'user:');
 INSERT INTO `t_role_permission` VALUES ('1', 'zidian:');
 INSERT INTO `t_role_permission` VALUES ('1', 'classManagement:');
+INSERT INTO `t_role_permission` VALUES ('2', 'info:');
+INSERT INTO `t_role_permission` VALUES ('2', 'student:');
+INSERT INTO `t_role_permission` VALUES ('2', 'work:');
+INSERT INTO `t_role_permission` VALUES ('2', 'gongneng:');
+INSERT INTO `t_role_permission` VALUES ('2', 'questionAnswer:');
+INSERT INTO `t_role_permission` VALUES ('2', 'workManagement:');
+INSERT INTO `t_role_permission` VALUES ('2', 'questionMessage:');
+INSERT INTO `t_role_permission` VALUES ('2', 'toDiscuss:');
+INSERT INTO `t_role_permission` VALUES ('2', 'zidian:');
+INSERT INTO `t_role_permission` VALUES ('2', 'classManagement:');
 
 -- ----------------------------
--- Table structure for t_student
+-- Table structure for `t_student`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
@@ -281,7 +286,7 @@ INSERT INTO `t_student` VALUES ('44', '211806101', '测试1', '123456', null, '3
 INSERT INTO `t_student` VALUES ('45', '211806102', '测试2', '123456', null, '3', '0', '2');
 
 -- ----------------------------
--- Table structure for t_stu_question
+-- Table structure for `t_stu_question`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_stu_question`;
 CREATE TABLE `t_stu_question` (
@@ -291,14 +296,17 @@ CREATE TABLE `t_stu_question` (
   `q_id` int(11) DEFAULT NULL COMMENT '问题ID',
   `q_answer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`sq_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_stu_question
 -- ----------------------------
+INSERT INTO `t_stu_question` VALUES ('1', '1', '1', '1', '橘子');
+INSERT INTO `t_stu_question` VALUES ('2', '1', '1', '2', '正确答案是。。。');
+INSERT INTO `t_stu_question` VALUES ('3', '1', '1', '3', '橙子');
 
 -- ----------------------------
--- Table structure for t_user
+-- Table structure for `t_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
@@ -323,7 +331,7 @@ INSERT INTO `t_user` VALUES ('1', 'admin', 'wrp', '123456', null, '1', '1', '1',
 INSERT INTO `t_user` VALUES ('2', 'cjr', '陈家瑞', '123456', null, '2', '1', '1', '2015-03-05 11:21:11');
 
 -- ----------------------------
--- Table structure for t_work
+-- Table structure for `t_work`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_work`;
 CREATE TABLE `t_work` (
@@ -342,7 +350,7 @@ CREATE TABLE `t_work` (
 INSERT INTO `t_work` VALUES ('1', '2', '1', '做一个网上商城的项目。', '2015-04-17 20:55:06', '使用SpringMVC');
 
 -- ----------------------------
--- Table structure for t_work_info
+-- Table structure for `t_work_info`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_work_info`;
 CREATE TABLE `t_work_info` (
@@ -365,7 +373,7 @@ INSERT INTO `t_work_info` VALUES ('1', '1', '1', '2015-04-17 20:56:12', '50');
 INSERT INTO `t_work_info` VALUES ('2', '1', '31', '2015-04-17 21:05:43', '50');
 
 -- ----------------------------
--- Table structure for t_work_question
+-- Table structure for `t_work_question`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_work_question`;
 CREATE TABLE `t_work_question` (
@@ -373,14 +381,17 @@ CREATE TABLE `t_work_question` (
   `w_id` int(11) DEFAULT NULL COMMENT '作业ID',
   `q_id` int(11) DEFAULT NULL COMMENT '题目ID',
   PRIMARY KEY (`wq_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_work_question
 -- ----------------------------
+INSERT INTO `t_work_question` VALUES ('1', '1', '1');
+INSERT INTO `t_work_question` VALUES ('4', '1', '2');
+INSERT INTO `t_work_question` VALUES ('5', '1', '3');
 
 -- ----------------------------
--- View structure for v_user
+-- View structure for `v_user`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_user`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_user` AS select `t1`.`user_id` AS `user_id`,`t1`.`login_name` AS `login_name`,`t1`.`nick_name` AS `nick_name`,`t1`.`password` AS `password`,`t1`.`salt` AS `salt`,`t1`.`user_role` AS `user_role`,`t1`.`state` AS `state`,`t1`.`create_id` AS `create_id`,`t1`.`create_time` AS `create_time`,`t2`.`role_name` AS `role_name`,`t2`.`role_code` AS `role_code`,`t3`.`login_name` AS `create_name` from ((`t_user` `t1` left join `t_role` `t2` on((`t1`.`user_role` = `t2`.`role_id`))) left join `t_user` `t3` on((`t1`.`create_id` = `t3`.`user_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_user` AS select `t1`.`user_id` AS `user_id`,`t1`.`login_name` AS `login_name`,`t1`.`nick_name` AS `nick_name`,`t1`.`password` AS `password`,`t1`.`salt` AS `salt`,`t1`.`user_role` AS `user_role`,`t1`.`state` AS `state`,`t1`.`create_id` AS `create_id`,`t1`.`create_time` AS `create_time`,`t2`.`role_name` AS `role_name`,`t2`.`role_code` AS `role_code`,`t3`.`login_name` AS `create_name` from ((`t_user` `t1` left join `t_role` `t2` on((`t1`.`user_role` = `t2`.`role_id`))) left join `t_user` `t3` on((`t1`.`create_id` = `t3`.`user_id`))) ;

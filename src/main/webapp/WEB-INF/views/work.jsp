@@ -70,11 +70,6 @@
         </form>
     </div>
 
-    <%--上课时间-出勤和作业提交--%>
-    <div id="J_WorkInfoContent" class="hide">
-    	<iframe id="J_WorkInfoContentGrid" src="#" width="100%" height="100%" frameborder="0" style="border: none;"></iframe>
-    </div>
-
 </div>
 <script type="text/javascript">
 BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bui/overlay','bui/data','bui/grid','bui/calendar'],function (Search,List,Picker,Select,Calendar,Overlay,Data,Grid,Calendar) {
@@ -82,15 +77,11 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                 { title : '作业名称', width: 150, dataIndex: 'wWorkName'},
                 { title : '布置时间', width: 150, dataIndex: 'wAddTime'},
                 { title : '作业要求', width: 300, dataIndex: 'wWorkRequirement'},
-                { title: '添加题目', width: 200, dataIndex: 'qId',renderer : function(value,obj){
-                    var returnStr = '<span class="grid-command addQuestionInfo">添加题目</span>';
-                    return returnStr;
-                }},
                 { title: '操作', width: 200, dataIndex: 'wId',renderer : function(value,obj){
-                    var returnStr = '<span class="grid-command searchWorkInfo">查看提交情况</span>';
+                    var returnStr = '<span class="grid-command editQuestion">编辑题目</span>' +
+                            '<span class="grid-command searchWorkInfo">查看提交情况</span>';
                     return returnStr;
                 }}
-
              ],
                 store = Search.createStore('${ctx}/work/list',{pageSize:10}),
                 editing = new BUI.Grid.Plugins.DialogEditing({
@@ -170,19 +161,10 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                             data : {ids : ids.join(',')},
                             success : function(data){
                                 if(data.success){ //删除成功
+                                    BUI.Message.Alert('删除成功！');
                                     search.load();
                                 }else{ //删除失败
-                                    if(data.url==null||data.url==''){
-                                        BUI.Message.Alert('删除失败！');
-                                    }else{
-                                        BUI.Message.Confirm(data.msg,function(){
-                                            window.parent.tabTemp.addTab({
-                                                id: 46,
-                                                title: '首页管理',
-                                                href: data.url
-                                            }, true);
-                                        },'question');
-                                    }
+                                    BUI.Message.Alert('删除失败！');
                                 }
                             }
                         });
@@ -214,33 +196,24 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
             });
         }
         /*****************************操作及查看作业提交情况******************************************************/
-        //创建弹出框（学生选课）
-        var WorkInfoDialog;
-        function createWorkInfoDialog(){
-            return new Overlay.Dialog({
-                title:'成绩查询列表',
-                width:980,
-                height:500,
-                contentId:'J_WorkInfoContent',
-                success:function () {
-                    this.close();
-                }
-            });
-        }
         grid.on('cellclick',function  (ev) {
             var record = ev.record, //点击行的记录
                     field = ev.field, //点击对应列的dataIndex
                     target = $(ev.domTarget); //点击的元素
             if(target.hasClass('searchWorkInfo')){
-                if(!WorkInfoDialog){
-                    WorkInfoDialog = createWorkInfoDialog();
-                }
-                $("#J_WorkInfoContentGrid").attr("src", "${ctx}/work/toWorkAnalysis?wId=" + record.wId + "&clzssId=" + record.clzssId);
-                WorkInfoDialog.show();
+                window.parent.tabTemp.addTab({
+                    id: 1001,
+                    title: "成绩列表-" + record.wWorkName,
+                    href: "${ctx}/work/toWorkAnalysis?wId=" + record.wId + "&clzssId=" + record.clzssId
+                }, true);
+            } else if (target.hasClass('editQuestion')) {
+                window.parent.tabTemp.addTab({
+                    id: 1002,
+                    title: '编辑题目-' + record.wWorkName,
+                    href: "${ctx}/work/toWorkQuestion?wId=" + record.wId
+                }, true);
             }
         });
-
-
 
     }); //-----BUI end-----
 </script>
