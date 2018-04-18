@@ -32,8 +32,19 @@
 			</if>
 		</where>
 	</select>
-  
-  
+
+  <select id="selectByExtParams" resultType="com.shirokumacafe.archetype.entity.WorkExt">
+    select t.w_id as wId, t.user_tch_id as userTchId, t.clzss_id as clzssId, t.w_work_name as wWorkName,
+            t.w_add_time as wAddTime, t.w_work_requirement as wWorkRequirement,t2.nick_name as teacherName
+    from t_work t
+    LEFT JOIN t_user t2 on t.user_tch_id=t2.user_id
+    <where>
+      <if test="wId!=null">
+        t.w_id=#{wId}
+      </if>
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_work
     where w_id = #{wId,jdbcType=INTEGER}

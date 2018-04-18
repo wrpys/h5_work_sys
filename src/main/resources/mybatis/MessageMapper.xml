@@ -188,6 +188,9 @@
     LEFT JOIN t_user t3 on t2.oper_id=t3.user_id
     LEFT JOIN t_work t4 ON t.w_id=t4.w_id
     <where>
+      <if test="studentId!=null and studentId!=''">
+        and t1.s_id=#{studentId}
+      </if>
       <if test="studentName!=null and studentName!=''">
         and t1.s_name LIKE CONCAT('%',#{studentName},'%')
       </if>

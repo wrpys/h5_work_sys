@@ -54,7 +54,7 @@ public class FrontLoginInterceptor implements HandlerInterceptor {
             return true;
         }
         //不符合条件的，跳转到登录界面
-        response.sendRedirect("front/toLogin");
+        response.sendRedirect("toLogin");
         return false;
     }
 

@@ -68,7 +68,7 @@ dfn {
 	bottom: 4.7rem;
 	width: 45px;
 	height: 45px;
-	background-image: url("../../index/images/top.png");
+	background-image: url("../images/top.png");
 	background-color: rgba(0, 0, 0, 0.639216);
 	background-size: 45px;
 	display: none;
@@ -96,9 +96,9 @@ header .back {
 	position: absolute;
 	left: 0;
 	top: 0;
-	background: url(../../common/images/icons.png) no-repeat 5px 5px;
+	background: url(../images/icons.png) no-repeat 5px 5px;
 	background-size: 2.6rem;
-	auto;
+	/*auto;*/
 }
 
 .swiper-container {

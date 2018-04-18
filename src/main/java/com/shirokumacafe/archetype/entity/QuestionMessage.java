@@ -3,7 +3,8 @@ package com.shirokumacafe.archetype.entity;
 import java.util.Date;
 
 public class QuestionMessage extends Message {
-   
+
+    private Integer studentId;
     private String studentName;
     private String studentContent;
     private Date studentCreateTime;
@@ -14,6 +15,14 @@ public class QuestionMessage extends Message {
     private Date teacherCreateTime;
 
     private String wWorkName;
+
+    public Integer getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
+    }
 
     public String getStudentName() {
         return studentName;

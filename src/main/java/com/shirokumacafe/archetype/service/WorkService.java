@@ -5,10 +5,12 @@ import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Clzss;
+import com.shirokumacafe.archetype.entity.QuestionMessage;
 import com.shirokumacafe.archetype.entity.StuQuestionExt;
 import com.shirokumacafe.archetype.entity.Student;
 import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.entity.Work;
+import com.shirokumacafe.archetype.entity.WorkExt;
 import com.shirokumacafe.archetype.entity.WorkInfo;
 import com.shirokumacafe.archetype.entity.WorkQuestion;
 import com.shirokumacafe.archetype.entity.WorkQuestionExt;
@@ -21,6 +23,9 @@ import com.shirokumacafe.archetype.repository.WorkQuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -56,6 +61,9 @@ public class WorkService {
     @Autowired
     private StuQuestionMapper stuQuestionMapper;
 
+    @Autowired
+    private MessageService messageService;
+
     /**
      * 添加作业
      *
@@ -79,6 +87,19 @@ public class WorkService {
     public Page<Work> list(Work work, Page<Work> page) {
         com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
         List<Work> workList = workMapper.selectByParams(work);
+        page.setRows(workList);
+        page.setResults((int) pageHelper.getTotal());
+        return page;
+    }
+
+    /**
+     * 获取所有发布的作业 教师
+     *
+     * @return
+     */
+    public Page<WorkExt> listExtAll(Page<WorkExt> page) {
+        com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
+        List<WorkExt> workList = workMapper.selectByExtParams(new Work());
         page.setRows(workList);
         page.setResults((int) pageHelper.getTotal());
         return page;
@@ -169,5 +190,36 @@ public class WorkService {
 
     public List<StuQuestionExt> getQuestionDesc(Integer wId, Integer sId) {
         return stuQuestionMapper.getQuestionDesc(wId, sId);
+    }
+
+    public void getWorkExt(Integer wId, Model model) {
+        Work work = new Work();
+        work.setwId(wId);
+        List<WorkExt> works = workMapper.selectByExtParams(work);
+        model.addAttribute("work", works.get(0));
+        WorkInfo workInfoParams = new WorkInfo();
+        workInfoParams.setwId(wId);
+        workInfoParams.setsId(sessionUsers.getStudent().getsId());
+        WorkInfo workInfo = workInfoMapper.getWorkInfoByWIdAndStuId(workInfoParams);
+        if (workInfo == null || StringUtils.isEmpty(workInfo.getwIScore())) {
+            model.addAttribute("isComplete", false);
+        } else {
+            model.addAttribute("isComplete", true);
+            model.addAttribute("workInfo", workInfo);
+        }
+    }
+
+    public String getWorkReply(Integer wId, Model model) {
+        model.addAttribute("work", workMapper.selectByPrimaryKey(wId));
+        QuestionMessage questionMessage = new QuestionMessage();
+        questionMessage.setwId(wId);
+        List<QuestionMessage> replyList = messageService.questionMessageList(questionMessage);
+        if (CollectionUtils.isEmpty(replyList)) {
+            return "front/work_questions";
+        } else {
+            model.addAttribute("qms", replyList);
+            return "front/work_reply";
+        }
+
     }
 }

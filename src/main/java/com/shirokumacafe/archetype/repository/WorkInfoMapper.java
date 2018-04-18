@@ -19,5 +19,7 @@ public interface WorkInfoMapper {
 
 	WorkInfo getWorkInfoByWiIdAndStuId(WorkInfo workInfo);
 
+	WorkInfo getWorkInfoByWIdAndStuId(WorkInfo workInfo);
+
 	List<WorkInfo> getWorkInfosByWorkId(Integer workId);
 }

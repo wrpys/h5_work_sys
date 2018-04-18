@@ -31,6 +31,13 @@
     from t_work_info
     where w_id = #{wiId,jdbcType=INTEGER} and s_id = #{sId,jdbcType=INTEGER} 
   </select>
+
+  <select id="getWorkInfoByWIdAndStuId" parameterType="com.shirokumacafe.archetype.entity.WorkInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_work_info
+    where w_id = #{wId,jdbcType=INTEGER} and s_id = #{sId,jdbcType=INTEGER}
+  </select>
   
   <select id="getWorkInfosByWorkId" resultMap="BaseResultMap">
     select 

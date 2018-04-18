@@ -2,7 +2,7 @@ $(function(){
 	//返回顶部
 	var backTop = $("#backTop");
 	$(window).on("scroll", function() {
-		if (parseFloat($(window).scrollTop()) > 300) {
+		if (parseFloat($(window).scrollTop()) > 10) {
 			backTop.show();
 		} else {
 			backTop.hide();

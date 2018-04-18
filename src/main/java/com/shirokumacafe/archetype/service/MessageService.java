@@ -83,6 +83,17 @@ public class MessageService {
     }
 
     /**
+     * 学生端 提问
+     *
+     * @param questionMessage
+     * @return
+     */
+    public List<QuestionMessage> questionMessageList(QuestionMessage questionMessage) {
+        questionMessage.setStudentId(sessionUsers.getStudent().getsId());
+        return messageMapper.selectQuestionMessageByParams(questionMessage);
+    }
+
+    /**
      * 构造讨论列表
      *
      * @param messageExt

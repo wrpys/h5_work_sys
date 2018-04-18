@@ -3,6 +3,7 @@ package com.shirokumacafe.archetype.repository;
 import java.util.List;
 
 import com.shirokumacafe.archetype.entity.Work;
+import com.shirokumacafe.archetype.entity.WorkExt;
 
 public interface WorkMapper {
     int deleteByPrimaryKey(Integer wId);
@@ -20,4 +21,6 @@ public interface WorkMapper {
 	void deleteWorkList(List<Integer> ids);
 	
 	List<Work> selectByParams(Work work);
+
+	List<WorkExt> selectByExtParams(Work work);
 }

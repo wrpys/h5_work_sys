@@ -12,6 +12,11 @@
 <meta content="telephone=no" name="format-detection">
 <%@include file="inc.jsp" %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/front/work/main.css"/>
+<style>
+    .login_hide{
+        display: none;
+    }
+</style>
 <body>
 <section>
 	<div class="order_from" style="margin: 0rem 0 1rem 0;padding-top: 8rem;">
@@ -29,7 +34,7 @@
                     <tr>
                         <td class="td_name">密码:</td>
                         <td class="td_value">
-                            <input type="text" class="" value="" name="sPassword">
+                            <input type="password" class="" value="" name="sPassword">
                         </td>
                     </tr>
                     <tr>
