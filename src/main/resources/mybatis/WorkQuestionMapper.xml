@@ -70,11 +70,14 @@
   </update>
 
   <select id="findWorkQuestionExtByParams" resultType="com.shirokumacafe.archetype.entity.WorkQuestionExt" >
-    select t.wq_id as wqId,t.w_id as wId,t.q_id as qId,t2.w_work_name as wWorkName,t3.q_title as qTitle
+    select t.wq_id as wqId,t.w_id as wId,t.q_id as qId,t2.w_work_name as wWorkName,t3.q_title as qTitle, t3.q_type as qType
     from t_work_question t
     left join t_work t2 on t.w_id=t2.w_id
     LEFT JOIN t_question t3 on t.q_id=t3.q_id
     <where>
+      <if test="wqId!=null">
+        and t.wq_id>#{wqId}
+      </if>
       <if test="wId!=null">
         and t.w_id=#{wId}
       </if>
@@ -85,6 +88,7 @@
         and t3.q_title like CONCAT('%',#{qTitle},'%')
       </if>
     </where>
+    order by t.wq_id
   </select>
 
 </mapper>

@@ -1,5 +1,7 @@
 package com.shirokumacafe.archetype.entity;
 
+import java.util.List;
+
 public class MessageExt extends Message {
 
     private String operRoleName;
@@ -7,6 +9,8 @@ public class MessageExt extends Message {
     private String operName;
 
     private MessageExt messageExt;
+
+    private List<MessageExt> messageExts;
 
     public String getOperRoleName() {
         return operRoleName;
@@ -30,5 +34,13 @@ public class MessageExt extends Message {
 
     public void setMessageExt(MessageExt messageExt) {
         this.messageExt = messageExt;
+    }
+
+    public List<MessageExt> getMessageExts() {
+        return messageExts;
+    }
+
+    public void setMessageExts(List<MessageExt> messageExts) {
+        this.messageExts = messageExts;
     }
 }

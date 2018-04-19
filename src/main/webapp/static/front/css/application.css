@@ -5,10 +5,16 @@
 
 html {
 	font-family: Microsoft Yahei;
-	font-size: 62.5%;
+	font-size: 50%;
 }
 
-@media screen and (min-width:300px) and (max-width:500px) {
+@media screen and (max-width:330px) {
+	html {
+		font-size: 55%;
+	}
+}
+
+@media screen and (min-width:330px) and (max-width:500px) {
 	html {
 		font-size: 62.5%;
 	}

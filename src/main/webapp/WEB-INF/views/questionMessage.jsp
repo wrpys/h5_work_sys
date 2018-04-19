@@ -15,12 +15,6 @@
                     <input type="text" class="control-text" name="studentName">
                 </div>
             </div>
-            <div class="control-group span8">
-                <label class="control-label">作业题目：</label>
-                <div class="controls">
-                    <input type="text" class="control-text" name="wWorkName">
-                </div>
-            </div>
             <div class="span3 offset2">
                 <button type="button" id="btnSearch" class="button button-primary">搜索</button>
             </div>
@@ -48,6 +42,7 @@
 </div>
 <br><br><br><br>
 <script type="text/javascript">
+    var wId = "${wId}";
     BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/overlay'],function (Search,List,Picker,Select,Overlay) {
         var
                 columns = [
@@ -59,7 +54,7 @@
                     { title: '回复', width: 250, dataIndex: 'teacherContent'},
                     { title: '回复时间', width: 160, dataIndex: 'teacherCreateTime'}
                 ],
-                store = Search.createStore('${ctx}/message/questionMessageList',{pageSize:10}),
+                store = Search.createStore('${ctx}/message/questionMessageList?wId='+wId,{pageSize:10}),
                 editing = new BUI.Grid.Plugins.DialogEditing({
                     contentId : 'content',
                     triggerCls : 'btn-edit',

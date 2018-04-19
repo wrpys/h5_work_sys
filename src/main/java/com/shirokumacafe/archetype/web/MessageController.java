@@ -33,7 +33,8 @@ public class MessageController {
     /***********************答疑 begin************************************/
 
     @RequestMapping("toQuestionMessage")
-    public String toQuestionMessage() {
+    public String toQuestionMessage(Integer wId, Model model) {
+        model.addAttribute("wId", wId);
         return "questionMessage";
     }
 

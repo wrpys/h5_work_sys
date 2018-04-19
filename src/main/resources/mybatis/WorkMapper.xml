@@ -144,4 +144,25 @@
       w_work_requirement = #{wWorkRequirement,jdbcType=VARCHAR}
     where w_id = #{wId,jdbcType=INTEGER}
   </update>
+
+  <select id="getQuestionAnswers" resultMap="workQuestionListMap">
+    select t.q_answer,t2.* from t_stu_question t
+    LEFT JOIN t_question t2 on t.q_id=t2.q_id
+    where t.w_id = #{workId} and t.s_id = #{stuId}
+  </select>
+
+  <resultMap id="workQuestionListMap" type="com.shirokumacafe.archetype.entity.Question">
+    <result property="qId" column="q_id" />
+    <result property="qTitle" column="q_title" />
+    <result property="qType" column="q_type" />
+    <result property="qAnswer" column="q_answer" />
+    <collection property="answerList" column="q_id"
+                ofType="com.shirokumacafe.archetype.entity.Answer" select="getDefaultAnswer" />
+  </resultMap>
+
+  <select id="getDefaultAnswer" resultType="com.shirokumacafe.archetype.entity.Answer">
+    select t.a_id as aId,t.a_answer as aAnswer,t.a_correct as aCorrect,t.q_id as qId
+    from t_answer t where t.q_id = #{answerList}
+  </select>
+
 </mapper>

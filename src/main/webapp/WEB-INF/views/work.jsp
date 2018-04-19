@@ -74,16 +74,18 @@
 <script type="text/javascript">
 BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bui/overlay','bui/data','bui/grid','bui/calendar'],function (Search,List,Picker,Select,Calendar,Overlay,Data,Grid,Calendar) {
         var columns = [
-                { title : '作业名称', width: 150, dataIndex: 'wWorkName'},
+                { title : '作业名称', width: 200, dataIndex: 'wWorkName'},
                 { title : '布置时间', width: 150, dataIndex: 'wAddTime'},
                 { title : '作业要求', width: 300, dataIndex: 'wWorkRequirement'},
-                { title: '操作', width: 200, dataIndex: 'wId',renderer : function(value,obj){
+                { title: '操作', width: 250, dataIndex: 'wId',renderer : function(value,obj){
                     var returnStr = '<span class="grid-command editQuestion">编辑题目</span>' +
+                            '<span class="grid-command questionMessage">答疑</span>' +
+                            '<span class="grid-command discuss">参与讨论</span>' +
                             '<span class="grid-command searchWorkInfo">查看提交情况</span>';
                     return returnStr;
                 }}
              ],
-                store = Search.createStore('${ctx}/work/list',{pageSize:10}),
+                store = Search.createStore('${ctx}/work/list',{pageSize:5}),
                 editing = new BUI.Grid.Plugins.DialogEditing({
                     contentId : 'content',
                     triggerCls : 'btn-edit',
@@ -211,6 +213,18 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                     id: 1002,
                     title: '编辑题目-' + record.wWorkName,
                     href: "${ctx}/work/toWorkQuestion?wId=" + record.wId
+                }, true);
+            } else if (target.hasClass('questionMessage')) {
+                window.parent.tabTemp.addTab({
+                    id: 1000 + record.wId,
+                    title: '答疑-' + record.wWorkName,
+                    href: "${ctx}/message/toQuestionMessage?wId=" + record.wId
+                }, true);
+            } else if (target.hasClass('discuss')) {
+                window.parent.tabTemp.addTab({
+                    id: 1000 + record.wId,
+                    title: '参与讨论-' + record.wWorkName,
+                    href: "${ctx}/message/toDiscuss?wId=" + record.wId
                 }, true);
             }
         });

@@ -5,6 +5,7 @@ import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Clzss;
+import com.shirokumacafe.archetype.entity.Question;
 import com.shirokumacafe.archetype.entity.QuestionMessage;
 import com.shirokumacafe.archetype.entity.StuQuestionExt;
 import com.shirokumacafe.archetype.entity.Student;
@@ -220,6 +221,20 @@ public class WorkService {
             model.addAttribute("qms", replyList);
             return "front/work_reply";
         }
-
     }
+
+    public WorkInfo getWorkScore(Integer workId) {
+        WorkInfo workInfo = new WorkInfo();
+        workInfo.setwId(workId);
+        workInfo.setsId(sessionUsers.getStudent().getsId());
+        return workInfoMapper.getWorkInfoByWIdAndStuId(workInfo);
+    }
+
+    public List<Question> getQuestionAnswers(int workId) {
+        Student stu = sessionUsers.getStudent();
+        int stuId = stu.getsId();
+        List<Question> questionList = workMapper.getQuestionAnswers(workId,stuId);
+        return questionList;
+    }
+
 }

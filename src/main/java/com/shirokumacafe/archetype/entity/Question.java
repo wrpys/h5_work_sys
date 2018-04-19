@@ -1,11 +1,16 @@
 package com.shirokumacafe.archetype.entity;
 
+import java.util.List;
+
 public class Question {
     private Integer qId;
 
     private String qTitle;
 
     private Integer qType;
+
+    List<Answer> answerList;
+    private String qAnswer;
 
     public Integer getqId() {
         return qId;
@@ -29,5 +34,21 @@ public class Question {
 
     public void setqType(Integer qType) {
         this.qType = qType;
+    }
+
+    public List<Answer> getAnswerList() {
+        return answerList;
+    }
+
+    public void setAnswerList(List<Answer> answerList) {
+        this.answerList = answerList;
+    }
+
+    public String getqAnswer() {
+        return qAnswer;
+    }
+
+    public void setqAnswer(String qAnswer) {
+        this.qAnswer = qAnswer;
     }
 }

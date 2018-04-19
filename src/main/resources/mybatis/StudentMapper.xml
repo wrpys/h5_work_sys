@@ -23,7 +23,7 @@
 
    <select id="getWorkAnalysis" parameterType="com.shirokumacafe.archetype.entity.Work" resultType="java.util.Map">
 	select * from (select * from t_student t1 where t1.clzss_id = #{clzssId,jdbcType=INTEGER})t1
-	left join (select * from t_work_info t2 where t2.w_id = #{clzssId,jdbcType=INTEGER})t2 
+	left join (select * from t_work_info t2 where t2.w_id = #{wId,jdbcType=INTEGER})t2
 	on t2.s_id= t1.s_id
 	left join t_clzss t3 on t3.id=t1.clzss_id
 	where t3.id= #{clzssId,jdbcType=INTEGER}
