@@ -55,13 +55,21 @@ public class ClzssController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     @ResponseBody
     public Map<?, ?> add(Clzss clzss) {
+    	Clzss exitClzss = clzssService.findClzssByParams(clzss);
+    	if(null != exitClzss) {
+    		return Responses.writeFailAndMsg("该年级对应的班级已经存在!");
+    	}
         clzssService.add(clzss);
         return Responses.writeSuccess();
     }
-
-    @RequestMapping(value = "update", method = RequestMethod.POST)
+    
+	@RequestMapping(value = "update", method = RequestMethod.POST)
     @ResponseBody
     public Map<?, ?> update(Clzss clzss) {
+		Clzss exitClzss = clzssService.findClzssByParams(clzss);
+    	if(null != exitClzss) {
+    		return Responses.writeFailAndMsg("该年级对应的班级已经存在!");
+    	}
         clzssService.update(clzss);
         return Responses.writeSuccess();
     }

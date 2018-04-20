@@ -1,19 +1,8 @@
 package com.shirokumacafe.archetype.web;
 
-import com.github.pagehelper.PageHelper;
-import com.shirokumacafe.archetype.common.Configs;
-import com.shirokumacafe.archetype.common.mybatis.Page;
-import com.shirokumacafe.archetype.common.utilities.Responses;
-import com.shirokumacafe.archetype.entity.StuQuestion;
-import com.shirokumacafe.archetype.entity.StuQuestionExt;
-import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.User;
-import com.shirokumacafe.archetype.entity.Work;
-import com.shirokumacafe.archetype.entity.WorkInfo;
-import com.shirokumacafe.archetype.entity.WorkQuestion;
-import com.shirokumacafe.archetype.entity.WorkQuestionExt;
-import com.shirokumacafe.archetype.service.UserService;
-import com.shirokumacafe.archetype.service.WorkService;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-import java.util.Map;
+import com.github.pagehelper.PageHelper;
+import com.shirokumacafe.archetype.common.Configs;
+import com.shirokumacafe.archetype.common.mybatis.Page;
+import com.shirokumacafe.archetype.common.utilities.Responses;
+import com.shirokumacafe.archetype.entity.StuQuestionExt;
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.User;
+import com.shirokumacafe.archetype.entity.Work;
+import com.shirokumacafe.archetype.entity.WorkInfo;
+import com.shirokumacafe.archetype.entity.WorkQuestion;
+import com.shirokumacafe.archetype.entity.WorkQuestionExt;
+import com.shirokumacafe.archetype.service.ClzssService;
+import com.shirokumacafe.archetype.service.UserService;
+import com.shirokumacafe.archetype.service.WorkService;
 
 /**
  * 作业管理：出作业题，查看作业结果，统计分析作业情况
@@ -38,12 +39,15 @@ public class WorkController {
     private WorkService workService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ClzssService clzssService;
     
     @RequestMapping
     public String to(Model model){
     	List<User> users = userService.getUsersByRoleId(Configs.CUSTOMER_TEACHER);
     	users.addAll(userService.getUsersByRoleId(Configs.CUSTOMER_AMIN));
         model.addAttribute("users",users);
+        model.addAttribute("clzssList", clzssService.findAll());
         return "work";
     }
     
@@ -54,8 +58,8 @@ public class WorkController {
      */
     @RequestMapping(value = "add",method = RequestMethod.POST)
     @ResponseBody
-    public Map<?,?> add(Work work,String grade,String clzss){
-        workService.add(work,grade,clzss);
+    public Map<?,?> add(Work work){
+        workService.add(work);
         return Responses.writeSuccess();
     }
     
@@ -82,8 +86,8 @@ public class WorkController {
      */
     @RequestMapping(value = "update",method = RequestMethod.POST)
     @ResponseBody
-    public Map<?,?> update(Work work,String grade,String clzss){
-        workService.update(work,grade,clzss);
+    public Map<?,?> update(Work work){
+        workService.update(work);
         return Responses.writeSuccess();
     }
     
@@ -160,13 +164,13 @@ public class WorkController {
 
     @RequestMapping(value = "addWorkQuestion",method = RequestMethod.POST)
     @ResponseBody
-    public Map addWorkQuestion(WorkQuestion workQuestion) {
+    public Map<?,?> addWorkQuestion(WorkQuestion workQuestion) {
         return workService.addWorkQuestion(workQuestion);
     }
 
     @RequestMapping(value = "deleteWorkQuestion",method = RequestMethod.POST)
     @ResponseBody
-    public Map deleteWorkQuestion(Integer wqId) {
+    public Map<?,?> deleteWorkQuestion(Integer wqId) {
         workService.deleteWorkQuestion(wqId);
         return Responses.writeSuccess();
     }

@@ -108,7 +108,7 @@ function displayFileName(excel_fileName,excel_realName){
 
         function addFunction(){
             editing.add({state:1});
-            $("#sSex1").prop("checked",true);
+            //$("#sSex1").prop("checked",true);
         }
         function editFunction(){
             var selections = grid.getSelection();
@@ -162,7 +162,7 @@ function displayFileName(excel_fileName,excel_realName){
                 data : {id:record.id,grade:record.grade,clzss:record.clzss},
                 success : function(data){
                     if(data.success){ //编辑、新建成功
-                        editor.accept(); //隐藏弹出框
+                        editor.accept(); //隐藏弹出框	
                         search.load();
                     }else{ //编辑失败
                         var msg = data.msg;

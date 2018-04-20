@@ -52,5 +52,13 @@ public class ClzssService {
     public void delete(List<Integer> ids){
         clzssMapper.deleteClzssList(ids);
     }
+    
+    /**
+     * 通过主键id获取班级
+     * @return
+     */
+    public Clzss findClzssByParams(Clzss clzss){
+        return clzssMapper.findClzssByParams(clzss);
+    }
 
 }

@@ -120,6 +120,7 @@
             }
         }
         function editFunction(){
+        	debugger;
             var selections = grid.getSelection();
             if(selections.length!=1){
                 BUI.Message.Alert("请选中一条记录！");

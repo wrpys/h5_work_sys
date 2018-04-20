@@ -22,12 +22,12 @@
     from t_clzss order by grade,clzss asc
   </select>
   
-  
-  <select id="selectClzssByGradeAndClzss" resultMap="BaseResultMap">
+  <select id="findClzssByParams" parameterType="com.shirokumacafe.archetype.entity.Clzss" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_clzss where grade=#{grade,jdbcType=INTEGER} and clzss=#{clzss,jdbcType=INTEGER}
+    from t_clzss t where t.grade=#{grade,jdbcType=VARCHAR} and t.clzss=#{clzss,jdbcType=VARCHAR}
   </select>
+  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_clzss

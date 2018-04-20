@@ -43,7 +43,19 @@
                 	</div>
                 </div>
             </div>
+            
             <div class="row">
+                <label class="control-label"><s>*</s>班级：</label>
+                <div class="controls bui-form-group-select">&nbsp;&nbsp;
+                    <select class="input-small" name="clzssId" data-rules="{required:true}">
+                        <option value="" selected="selected">请选择</option>
+                        <c:forEach items="${clzssList}" var="clzss">
+                            <option value="${clzss.id}">${clzss.grade}-${clzss.clzss}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <!-- <div class="row">
                 <div class="control-group span8">
                     <label class="control-label"><s>*</s>年级：</label>
                     <div class="controls">
@@ -58,7 +70,7 @@
                         <input name="clzss" type="text" data-rules="{required:true}" class="input-normal control-text">
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="control-group span8" style="height: 200px;">
                     <label class="control-label"><s>*</s>作业要求：</label>
@@ -182,9 +194,8 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                 url : (record.wId==undefined||record.wId==null||record.wId=='')?'${ctx}/work/add':'${ctx}/work/update',
                 dataType : 'json',
                 type:'post',
-                data : {clzss:record.clzss,grade:record.grade,
-                	userTchId:record.userTchId,wId:record.wId,
-                	wWorkName:record.wWorkName,wWorkRequirement:record.wWorkRequirement
+                data : {clzssId:record.clzssId,userTchId:record.userTchId,
+                	wId:record.wId,wWorkName:record.wWorkName,wWorkRequirement:record.wWorkRequirement
                 	},
                 success : function(data){
                     if(data.success){ //编辑、新建成功

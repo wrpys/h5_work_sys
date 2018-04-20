@@ -1,10 +1,20 @@
 package com.shirokumacafe.archetype.service;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
 import com.github.pagehelper.PageHelper;
 import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
-import com.shirokumacafe.archetype.entity.Clzss;
 import com.shirokumacafe.archetype.entity.Question;
 import com.shirokumacafe.archetype.entity.QuestionMessage;
 import com.shirokumacafe.archetype.entity.StuQuestionExt;
@@ -15,22 +25,11 @@ import com.shirokumacafe.archetype.entity.WorkExt;
 import com.shirokumacafe.archetype.entity.WorkInfo;
 import com.shirokumacafe.archetype.entity.WorkQuestion;
 import com.shirokumacafe.archetype.entity.WorkQuestionExt;
-import com.shirokumacafe.archetype.repository.ClzssMapper;
 import com.shirokumacafe.archetype.repository.StuQuestionMapper;
 import com.shirokumacafe.archetype.repository.StudentMapper;
 import com.shirokumacafe.archetype.repository.WorkInfoMapper;
 import com.shirokumacafe.archetype.repository.WorkMapper;
 import com.shirokumacafe.archetype.repository.WorkQuestionMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 作业管理：出作业题，查看作业结果，统计分析作业情况
@@ -51,9 +50,6 @@ public class WorkService {
     private StudentMapper studentMapper;
 
     @Autowired
-    private ClzssMapper clzssMapper;
-
-    @Autowired
     private Users sessionUsers;
 
     @Autowired
@@ -71,12 +67,10 @@ public class WorkService {
      * @param work
      * @author CZX
      */
-    public void add(Work work, String grade, String clzss) {
-        User user = sessionUsers.getCurrentUser();
-        Clzss clz = clzssMapper.selectClzssByGradeAndClzss(grade, clzss);
+    public void add(Work work) {
+    	User user = sessionUsers.getCurrentUser();
         work.setUserTchId(user.getUserId());
-        work.setwAddTime(new Date());
-        work.setClzssId(clz.getId());
+    	work.setwAddTime(new Date());
         workMapper.insert(work);
     }
 
@@ -112,12 +106,9 @@ public class WorkService {
      * @param work
      * @author CZX
      */
-    public void update(Work work, String grade, String clzss) {
-        User user = sessionUsers.getCurrentUser();
-        Clzss clz = clzssMapper.selectClzssByGradeAndClzss(grade, clzss);
-        work.setUserTchId(user.getUserId());
+    public void update(Work work) {
         work.setwAddTime(new Date());
-        work.setClzssId(clz.getId());
+        work.setClzssId(work.getClzssId());
         workMapper.updateByPrimaryKeySelective(work);
     }
 
@@ -173,7 +164,7 @@ public class WorkService {
         return page;
     }
 
-    public Map addWorkQuestion(WorkQuestion workQuestion) {
+    public Map<?,?> addWorkQuestion(WorkQuestion workQuestion) {
         WorkQuestionExt workQuestionExt = new WorkQuestionExt();
         workQuestionExt.setwId(workQuestion.getwId());
         workQuestionExt.setqId(workQuestion.getqId());

@@ -3,8 +3,6 @@ package com.shirokumacafe.archetype.repository;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.shirokumacafe.archetype.entity.Clzss;
 
 /**
@@ -30,5 +28,5 @@ public interface ClzssMapper {
     
     List<Clzss> findAll();
     
-    Clzss selectClzssByGradeAndClzss(@Param("grade")String grade,@Param("clzss")String clzss);
+	Clzss findClzssByParams(Clzss clzss);
 }
