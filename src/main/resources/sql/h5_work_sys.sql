@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2018-04-12 16:41:53
+Date: 2018-04-21 11:20:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,16 +25,17 @@ CREATE TABLE `t_answer` (
   `a_correct` int(1) NOT NULL,
   `q_id` int(11) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_answer
 -- ----------------------------
-INSERT INTO `t_answer` VALUES ('1', '苹果', '0', '1');
-INSERT INTO `t_answer` VALUES ('2', '橘子', '1', '1');
-INSERT INTO `t_answer` VALUES ('4', '正确答案是。。。', '1', '2');
-INSERT INTO `t_answer` VALUES ('5', '芦柑', '0', '3');
-INSERT INTO `t_answer` VALUES ('6', '橙子', '1', '3');
+INSERT INTO `t_answer` VALUES ('9', '苹果', '0', '14');
+INSERT INTO `t_answer` VALUES ('10', '橘子', '0', '14');
+INSERT INTO `t_answer` VALUES ('11', '橙子', '1', '14');
+INSERT INTO `t_answer` VALUES ('12', '是', '1', '15');
+INSERT INTO `t_answer` VALUES ('13', '否', '0', '15');
+INSERT INTO `t_answer` VALUES ('14', '1、继承，2、封装，3、抽象', '1', '16');
 
 -- ----------------------------
 -- Table structure for `t_clzss`
@@ -45,47 +46,14 @@ CREATE TABLE `t_clzss` (
   `grade` varchar(255) DEFAULT NULL,
   `clzss` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_clzss
 -- ----------------------------
-INSERT INTO `t_clzss` VALUES ('1', '2011', '3');
-INSERT INTO `t_clzss` VALUES ('2', '2', '1');
-INSERT INTO `t_clzss` VALUES ('3', '3', '1');
-INSERT INTO `t_clzss` VALUES ('4', '4', '1');
-INSERT INTO `t_clzss` VALUES ('5', '5', '1');
-INSERT INTO `t_clzss` VALUES ('6', '6', '1');
-INSERT INTO `t_clzss` VALUES ('7', '1', '2');
-INSERT INTO `t_clzss` VALUES ('8', '2', '2');
-INSERT INTO `t_clzss` VALUES ('9', '3', '2');
-INSERT INTO `t_clzss` VALUES ('10', '4', '2');
-INSERT INTO `t_clzss` VALUES ('11', '5', '2');
-INSERT INTO `t_clzss` VALUES ('12', '6', '2');
-INSERT INTO `t_clzss` VALUES ('13', '1', '3');
-INSERT INTO `t_clzss` VALUES ('14', '2', '3');
-INSERT INTO `t_clzss` VALUES ('15', '3', '3');
-INSERT INTO `t_clzss` VALUES ('16', '4', '3');
-INSERT INTO `t_clzss` VALUES ('17', '5', '3');
-INSERT INTO `t_clzss` VALUES ('18', '6', '3');
-INSERT INTO `t_clzss` VALUES ('19', '1', '4');
-INSERT INTO `t_clzss` VALUES ('20', '2', '4');
-INSERT INTO `t_clzss` VALUES ('21', '3', '4');
-INSERT INTO `t_clzss` VALUES ('22', '4', '4');
-INSERT INTO `t_clzss` VALUES ('23', '5', '4');
-INSERT INTO `t_clzss` VALUES ('24', '6', '4');
-INSERT INTO `t_clzss` VALUES ('25', '1', '5');
-INSERT INTO `t_clzss` VALUES ('26', '2', '5');
-INSERT INTO `t_clzss` VALUES ('27', '3', '5');
-INSERT INTO `t_clzss` VALUES ('28', '4', '5');
-INSERT INTO `t_clzss` VALUES ('29', '5', '5');
-INSERT INTO `t_clzss` VALUES ('30', '6', '5');
-INSERT INTO `t_clzss` VALUES ('31', '1', '6');
-INSERT INTO `t_clzss` VALUES ('32', '2', '6');
-INSERT INTO `t_clzss` VALUES ('33', '3', '6');
-INSERT INTO `t_clzss` VALUES ('34', '4', '6');
-INSERT INTO `t_clzss` VALUES ('35', '5', '6');
-INSERT INTO `t_clzss` VALUES ('36', '6', '6');
+INSERT INTO `t_clzss` VALUES ('37', '2018', '1');
+INSERT INTO `t_clzss` VALUES ('38', '2018', '2');
+INSERT INTO `t_clzss` VALUES ('39', '2018', '3');
 
 -- ----------------------------
 -- Table structure for `t_menu`
@@ -100,7 +68,7 @@ CREATE TABLE `t_menu` (
   `sort` int(11) DEFAULT NULL,
   `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_menu
@@ -113,10 +81,7 @@ INSERT INTO `t_menu` VALUES ('5', 'zidian', '0', '系统数据', '', '6', '1');
 INSERT INTO `t_menu` VALUES ('8', 'info', '0', '信息管理', '', '1', '1');
 INSERT INTO `t_menu` VALUES ('10', 'student', '8', '学生信息管理', 'student', '1', '1');
 INSERT INTO `t_menu` VALUES ('23', 'gongneng', '0', '教师工具', '', '4', '1');
-INSERT INTO `t_menu` VALUES ('29', 'work', '8', '作业管理', 'work', '5', '1');
 INSERT INTO `t_menu` VALUES ('31', '1429321176178', '0', '父', '', null, '1');
-INSERT INTO `t_menu` VALUES ('32', 'questionMessage', '23', '答疑', 'message/toQuestionMessage', '2', '1');
-INSERT INTO `t_menu` VALUES ('33', 'toDiscuss', '23', '参与讨论', 'message/toDiscuss?wId=1', '3', '1');
 INSERT INTO `t_menu` VALUES ('34', 'classManagement', '5', '班级管理', 'clzss', '1', '1');
 INSERT INTO `t_menu` VALUES ('35', 'workManagement', '23', '作业管理', 'work', '1', '1');
 INSERT INTO `t_menu` VALUES ('36', 'questionAnswer', '23', '题库管理', 'questionAnswer', '1', '1');
@@ -135,22 +100,20 @@ CREATE TABLE `t_message` (
   `oper_role` int(1) NOT NULL COMMENT '发送角色，1:老师，2:学生',
   `oper_id` int(11) NOT NULL COMMENT '发送者ID',
   PRIMARY KEY (`msg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_message
 -- ----------------------------
-INSERT INTO `t_message` VALUES ('1', '0', '1', '请问', '2018-04-09 09:49:17', '1', '1', '1');
-INSERT INTO `t_message` VALUES ('2', '1', '1', '回答', '2018-04-09 09:49:33', '1', '2', '2');
-INSERT INTO `t_message` VALUES ('3', '0', '1', '请问2', '2018-04-09 10:41:22', '1', '1', '1');
-INSERT INTO `t_message` VALUES ('4', '3', '1', '回答2', '2018-04-09 11:04:33', '1', '1', '2');
-INSERT INTO `t_message` VALUES ('5', '0', '2', 'JAVA中hashmap。。。', '2018-04-09 15:27:41', '1', '1', '1');
-INSERT INTO `t_message` VALUES ('6', '0', '2', 'java中ArrayList...', '2018-04-09 15:29:25', '1', '1', '1');
-INSERT INTO `t_message` VALUES ('7', '5', '2', 'hashMap是键值对', '2018-04-09 15:29:56', '1', '1', '25');
-INSERT INTO `t_message` VALUES ('8', '7', '2', 'hashmap原理。。。', '2018-04-09 15:30:21', '1', '2', '2');
-INSERT INTO `t_message` VALUES ('9', '6', '2', 'arraylist原理。。。', '2018-04-09 15:30:41', '1', '2', '2');
-INSERT INTO `t_message` VALUES ('10', '9', '2', 'arraylist是线程不安全的', '2018-04-10 09:22:36', '1', '2', '2');
-INSERT INTO `t_message` VALUES ('11', '10', '2', '好的', '2018-04-10 09:22:57', '1', '2', '2');
+INSERT INTO `t_message` VALUES ('59', '0', '1', '老师你好，请问这个作业得什么时候完成？', '2018-04-21 10:31:45', '20', '1', '47');
+INSERT INTO `t_message` VALUES ('60', '0', '1', '有不会做的怎么办？', '2018-04-21 10:32:13', '20', '1', '47');
+INSERT INTO `t_message` VALUES ('61', '59', '1', '23号完成就好', '2018-04-21 10:45:26', '20', '2', '4');
+INSERT INTO `t_message` VALUES ('62', '60', '1', '不会做的先随便答，后面会有答题', '2018-04-21 10:45:51', '20', '2', '4');
+INSERT INTO `t_message` VALUES ('63', '0', '2', 'java的三大特性，有详细介绍吗？', '2018-04-21 10:49:32', '20', '1', '47');
+INSERT INTO `t_message` VALUES ('64', '63', '2', '百度有噢。', '2018-04-21 10:54:55', '20', '1', '48');
+INSERT INTO `t_message` VALUES ('65', '64', '2', '书本也有哦。在第一章。', '2018-04-21 10:59:21', '20', '2', '4');
+INSERT INTO `t_message` VALUES ('66', '65', '2', '嗯。老师说的地方也是。', '2018-04-21 11:05:58', '20', '1', '48');
+INSERT INTO `t_message` VALUES ('67', '66', '2', '。。。', '2018-04-21 11:06:13', '20', '2', '4');
 
 -- ----------------------------
 -- Table structure for `t_question`
@@ -161,22 +124,14 @@ CREATE TABLE `t_question` (
   `q_title` varchar(255) NOT NULL,
   `q_type` int(1) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_question
 -- ----------------------------
-INSERT INTO `t_question` VALUES ('1', '你喜欢吃的水果？', '1');
-INSERT INTO `t_question` VALUES ('2', '你喜欢吃的水果2？', '2');
-INSERT INTO `t_question` VALUES ('3', '你喜欢吃的水果？3', '1');
-INSERT INTO `t_question` VALUES ('4', '你喜欢吃的水果？4', '1');
-INSERT INTO `t_question` VALUES ('5', '你喜欢吃的水果？5', '1');
-INSERT INTO `t_question` VALUES ('6', '你喜欢吃的水果？6', '1');
-INSERT INTO `t_question` VALUES ('7', '你喜欢吃的水果？7', '1');
-INSERT INTO `t_question` VALUES ('8', '你喜欢吃的水果？8', '1');
-INSERT INTO `t_question` VALUES ('9', '你喜欢吃的水果？9', '1');
-INSERT INTO `t_question` VALUES ('10', '你喜欢吃的水果？10', '1');
-INSERT INTO `t_question` VALUES ('11', '你喜欢吃的水果？11', '1');
+INSERT INTO `t_question` VALUES ('14', '你喜欢吃的水果？', '1');
+INSERT INTO `t_question` VALUES ('15', 'java是面向对象的吗？', '1');
+INSERT INTO `t_question` VALUES ('16', 'java面向对象的三大特征是？', '2');
 
 -- ----------------------------
 -- Table structure for `t_role`
@@ -201,8 +156,8 @@ CREATE TABLE `t_role` (
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
-INSERT INTO `t_role` VALUES ('1', 'admin', '管理员', null, '拥有最高权限。', '1', '1', '1', '2015-03-05 09:47:47', '2018-04-10 19:04:42');
-INSERT INTO `t_role` VALUES ('2', 'teacher', '教师', null, '拥有一些信息之类的管理。', '1', '1', '1', '2015-03-05 11:19:05', '2018-04-12 11:36:35');
+INSERT INTO `t_role` VALUES ('1', 'admin', '管理员', null, '拥有最高权限。', '1', '1', '1', '2015-03-05 09:47:47', '2018-04-20 21:27:03');
+INSERT INTO `t_role` VALUES ('2', 'teacher', '教师', null, '拥有一些信息之类的管理。', '1', '1', '1', '2015-03-05 11:19:05', '2018-04-21 09:33:43');
 INSERT INTO `t_role` VALUES ('3', 'student', '学生', null, '不允许进入后台。', '1', '1', null, '2015-03-05 11:23:56', null);
 
 -- ----------------------------
@@ -217,30 +172,16 @@ CREATE TABLE `t_role_permission` (
 -- ----------------------------
 -- Records of t_role_permission
 -- ----------------------------
-INSERT INTO `t_role_permission` VALUES ('3', 'zixun:');
-INSERT INTO `t_role_permission` VALUES ('3', 'notice:');
-INSERT INTO `t_role_permission` VALUES ('1', 'info:');
-INSERT INTO `t_role_permission` VALUES ('1', 'student:');
-INSERT INTO `t_role_permission` VALUES ('1', 'work:');
-INSERT INTO `t_role_permission` VALUES ('1', 'gongneng:');
-INSERT INTO `t_role_permission` VALUES ('1', 'questionAnswer:');
-INSERT INTO `t_role_permission` VALUES ('1', 'workManagement:');
-INSERT INTO `t_role_permission` VALUES ('1', 'questionMessage:');
-INSERT INTO `t_role_permission` VALUES ('1', 'toDiscuss:');
+INSERT INTO `t_role_permission` VALUES ('1', 'ceshi:');
 INSERT INTO `t_role_permission` VALUES ('1', 'system:');
 INSERT INTO `t_role_permission` VALUES ('1', 'menu:');
 INSERT INTO `t_role_permission` VALUES ('1', 'role:');
 INSERT INTO `t_role_permission` VALUES ('1', 'user:');
-INSERT INTO `t_role_permission` VALUES ('1', 'zidian:');
-INSERT INTO `t_role_permission` VALUES ('1', 'classManagement:');
 INSERT INTO `t_role_permission` VALUES ('2', 'info:');
 INSERT INTO `t_role_permission` VALUES ('2', 'student:');
-INSERT INTO `t_role_permission` VALUES ('2', 'work:');
 INSERT INTO `t_role_permission` VALUES ('2', 'gongneng:');
 INSERT INTO `t_role_permission` VALUES ('2', 'questionAnswer:');
 INSERT INTO `t_role_permission` VALUES ('2', 'workManagement:');
-INSERT INTO `t_role_permission` VALUES ('2', 'questionMessage:');
-INSERT INTO `t_role_permission` VALUES ('2', 'toDiscuss:');
 INSERT INTO `t_role_permission` VALUES ('2', 'zidian:');
 INSERT INTO `t_role_permission` VALUES ('2', 'classManagement:');
 
@@ -258,32 +199,16 @@ CREATE TABLE `t_student` (
   `s_sex` tinyint(1) DEFAULT '0',
   `clzss_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`s_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_student
 -- ----------------------------
-INSERT INTO `t_student` VALUES ('1', '211106402', '王荣坡', '123456', null, '3', '0', '1');
-INSERT INTO `t_student` VALUES ('25', '211106378', '陈洪玮', '', null, '3', '0', '1');
-INSERT INTO `t_student` VALUES ('26', '211106379', '陈建俊', '', '', '3', '0', '2');
-INSERT INTO `t_student` VALUES ('27', '211106380', '陈建旺', '', '', '3', '0', '1');
-INSERT INTO `t_student` VALUES ('28', '211106381', '陈建增', '', '', '3', '0', '1');
-INSERT INTO `t_student` VALUES ('29', '211106393', '李娜端', '', '', '3', '1', '2');
-INSERT INTO `t_student` VALUES ('30', '211106405', '谢能炎', '', null, '3', '0', '1');
-INSERT INTO `t_student` VALUES ('31', '211106412', '余双', '', null, '3', '1', '1');
-INSERT INTO `t_student` VALUES ('32', '211106409', '杨琴霞', '', null, '3', '1', '2');
-INSERT INTO `t_student` VALUES ('34', '211106401', '测试', '', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('35', '211106001', '张三', '', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('36', '211106002', '李四', '', null, '3', '1', '2');
-INSERT INTO `t_student` VALUES ('37', '211106003', '王五', '', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('38', '211106004', '赵六', '', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('39', '211106005', '孙七', '', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('40', '211106006', '周八', '', null, '3', '1', '2');
-INSERT INTO `t_student` VALUES ('41', '211106007', '吴九', '', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('42', '211106008', '郑十', '', null, '3', '1', '2');
-INSERT INTO `t_student` VALUES ('43', '211101111', 'ceshi', '123456', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('44', '211806101', '测试1', '123456', null, '3', '0', '2');
-INSERT INTO `t_student` VALUES ('45', '211806102', '测试2', '123456', null, '3', '0', '2');
+INSERT INTO `t_student` VALUES ('47', '2018001', '张三', '123456', null, '3', '0', '37');
+INSERT INTO `t_student` VALUES ('48', '2018002', '李四', '123456', null, '3', '0', '37');
+INSERT INTO `t_student` VALUES ('49', '2018003', '王五', '123456', null, '3', '1', '37');
+INSERT INTO `t_student` VALUES ('50', '2018004', '赵六', '123456', null, '3', '0', '37');
+INSERT INTO `t_student` VALUES ('51', '2018005', '马七', '123456', null, '3', '1', '37');
 
 -- ----------------------------
 -- Table structure for `t_stu_question`
@@ -296,14 +221,17 @@ CREATE TABLE `t_stu_question` (
   `q_id` int(11) DEFAULT NULL COMMENT '问题ID',
   `q_answer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`sq_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_stu_question
 -- ----------------------------
-INSERT INTO `t_stu_question` VALUES ('1', '1', '1', '1', '橘子');
-INSERT INTO `t_stu_question` VALUES ('2', '1', '1', '2', '正确答案是。。。');
-INSERT INTO `t_stu_question` VALUES ('3', '1', '1', '3', '橙子');
+INSERT INTO `t_stu_question` VALUES ('43', '47', '20', '14', '苹果');
+INSERT INTO `t_stu_question` VALUES ('44', '47', '20', '15', '是');
+INSERT INTO `t_stu_question` VALUES ('45', '47', '20', '16', '封装，继承，抽象');
+INSERT INTO `t_stu_question` VALUES ('46', '48', '20', '14', '橙子');
+INSERT INTO `t_stu_question` VALUES ('47', '48', '20', '15', '是');
+INSERT INTO `t_stu_question` VALUES ('48', '48', '20', '16', '不懂');
 
 -- ----------------------------
 -- Table structure for `t_user`
@@ -322,13 +250,14 @@ CREATE TABLE `t_user` (
   PRIMARY KEY (`user_id`),
   KEY `FK_USER_ROLE` (`user_role`),
   CONSTRAINT `t_user_ibfk_1` FOREIGN KEY (`user_role`) REFERENCES `t_role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'admin', 'wrp', '123456', null, '1', '1', '1', '2015-03-04 22:55:38');
-INSERT INTO `t_user` VALUES ('2', 'cjr', '陈家瑞', '123456', null, '2', '1', '1', '2015-03-05 11:21:11');
+INSERT INTO `t_user` VALUES ('1', 'admin', '系统管理员', '123456', '', '1', '1', '1', '2015-03-04 22:55:38');
+INSERT INTO `t_user` VALUES ('2', 'jiaoshi', '教师', '123456', '', '2', '1', '1', '2015-03-05 11:21:11');
+INSERT INTO `t_user` VALUES ('4', 'jiaoshi2', '教师2', '123456', null, '2', '1', '1', '2018-04-21 09:50:21');
 
 -- ----------------------------
 -- Table structure for `t_work`
@@ -342,12 +271,13 @@ CREATE TABLE `t_work` (
   `w_add_time` datetime DEFAULT NULL,
   `w_work_requirement` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`w_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_work
 -- ----------------------------
-INSERT INTO `t_work` VALUES ('1', '2', '1', '做一个网上商城的项目。', '2015-04-17 20:55:06', '使用SpringMVC');
+INSERT INTO `t_work` VALUES ('20', '4', '37', 'java ee第一课课后习题。', '2018-04-21 09:53:24', '下一节课前完成答题。');
+INSERT INTO `t_work` VALUES ('21', '4', '37', 'java ee第二课课后习题', '2018-04-21 10:04:16', 'java ee第二课课后习题');
 
 -- ----------------------------
 -- Table structure for `t_work_info`
@@ -361,16 +291,14 @@ CREATE TABLE `t_work_info` (
   `w_i_score` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`wi_id`),
   KEY `FK_WORKINFO_WORK` (`w_id`),
-  KEY `FK_WORKINFO_STUDENT` (`s_id`),
-  CONSTRAINT `t_work_info_ibfk_1` FOREIGN KEY (`s_id`) REFERENCES `t_student` (`s_id`),
-  CONSTRAINT `t_work_info_ibfk_2` FOREIGN KEY (`w_id`) REFERENCES `t_work` (`w_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `FK_WORKINFO_STUDENT` (`s_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_work_info
 -- ----------------------------
-INSERT INTO `t_work_info` VALUES ('1', '1', '1', '2015-04-17 20:56:12', '50');
-INSERT INTO `t_work_info` VALUES ('2', '1', '31', '2015-04-17 21:05:43', '50');
+INSERT INTO `t_work_info` VALUES ('9', '20', '47', '2018-04-21 10:48:21', '1');
+INSERT INTO `t_work_info` VALUES ('10', '20', '48', '2018-04-21 10:50:14', '2');
 
 -- ----------------------------
 -- Table structure for `t_work_question`
@@ -381,14 +309,17 @@ CREATE TABLE `t_work_question` (
   `w_id` int(11) DEFAULT NULL COMMENT '作业ID',
   `q_id` int(11) DEFAULT NULL COMMENT '题目ID',
   PRIMARY KEY (`wq_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_work_question
 -- ----------------------------
-INSERT INTO `t_work_question` VALUES ('1', '1', '1');
-INSERT INTO `t_work_question` VALUES ('4', '1', '2');
-INSERT INTO `t_work_question` VALUES ('5', '1', '3');
+INSERT INTO `t_work_question` VALUES ('25', '20', '14');
+INSERT INTO `t_work_question` VALUES ('26', '20', '15');
+INSERT INTO `t_work_question` VALUES ('27', '20', '16');
+INSERT INTO `t_work_question` VALUES ('28', '21', '14');
+INSERT INTO `t_work_question` VALUES ('29', '21', '15');
+INSERT INTO `t_work_question` VALUES ('30', '21', '16');
 
 -- ----------------------------
 -- View structure for `v_user`
