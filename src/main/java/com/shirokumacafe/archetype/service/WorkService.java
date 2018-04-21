@@ -81,6 +81,7 @@ public class WorkService {
      */
     public Page<Work> list(Work work, Page<Work> page) {
         com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
+        work.setUserTchId(sessionUsers.getCurrentUser().getUserId());
         List<Work> workList = workMapper.selectByParams(work);
         page.setRows(workList);
         page.setResults((int) pageHelper.getTotal());

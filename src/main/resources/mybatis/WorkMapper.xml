@@ -30,7 +30,11 @@
 			<if test="wWorkRequirement!=null and wWorkRequirement!=''">
 				and t.w_work_requirement like CONCAT('%',#{wWorkRequirement},'%')
 			</if>
+            <if test="userTchId!=null">
+              and t.user_tch_id = #{userTchId}
+            </if>
 		</where>
+        order by t.w_add_time desc
 	</select>
 
   <select id="selectByExtParams" resultType="com.shirokumacafe.archetype.entity.WorkExt">
@@ -43,6 +47,7 @@
         t.w_id=#{wId}
       </if>
     </where>
+    order by t.w_add_time desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

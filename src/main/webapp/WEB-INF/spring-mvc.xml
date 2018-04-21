@@ -70,6 +70,7 @@
             <mvc:mapping path="/front/**"/>
             <mvc:exclude-mapping path="/static/**" />
             <mvc:exclude-mapping path="/WEB-INF/views/front/**" />
+            <mvc:exclude-mapping path="/front" />
             <bean class="com.shirokumacafe.archetype.common.filter.FrontLoginInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>

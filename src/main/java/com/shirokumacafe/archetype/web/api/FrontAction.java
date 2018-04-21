@@ -5,7 +5,6 @@ import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.entity.MessageExt;
 import com.shirokumacafe.archetype.entity.Question;
-import com.shirokumacafe.archetype.entity.StuQuestionExt;
 import com.shirokumacafe.archetype.entity.WorkExt;
 import com.shirokumacafe.archetype.entity.WorkInfo;
 import com.shirokumacafe.archetype.service.MessageService;
@@ -44,8 +43,16 @@ public class FrontAction {
     /**
      * 跳转登录页
      */
+    @RequestMapping(method = RequestMethod.GET)
+    public String to(Model model) {
+        return "front/login";
+    }
+
+    /**
+     * 跳转登录页
+     */
     @RequestMapping(value = "toLogin", method = RequestMethod.GET)
-    public String toIndex(Model model) {
+    public String toLogin(Model model) {
         return "front/login";
     }
 
