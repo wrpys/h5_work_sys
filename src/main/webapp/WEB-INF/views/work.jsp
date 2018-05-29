@@ -87,8 +87,11 @@
 BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bui/overlay','bui/data','bui/grid','bui/calendar'],function (Search,List,Picker,Select,Calendar,Overlay,Data,Grid,Calendar) {
         var columns = [
                 { title : '作业名称', width: 200, dataIndex: 'wWorkName'},
+                { title : '班级', width: 100, dataIndex: 'wId',renderer : function(value,obj){
+                    return obj.grade + "-" + obj.clzss;
+                }},
                 { title : '布置时间', width: 150, dataIndex: 'wAddTime'},
-                { title : '作业要求', width: 300, dataIndex: 'wWorkRequirement'},
+                { title : '作业要求', width: 220, dataIndex: 'wWorkRequirement'},
                 { title: '操作', width: 250, dataIndex: 'wId',renderer : function(value,obj){
                     var returnStr = '<span class="grid-command editQuestion">编辑题目</span>' +
                             '<span class="grid-command questionMessage">答疑</span>' +

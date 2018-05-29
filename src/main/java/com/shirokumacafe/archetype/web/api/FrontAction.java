@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * /**
- * 前台入口
+ * h5前台入口
  */
 @Controller
 @RequestMapping(value = "/front")

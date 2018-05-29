@@ -139,7 +139,7 @@
                         _html.push('<span class="user-info">' + mItem.operName + '(' + mItem.operRoleName + ')' + '</span>');
                         _html.push('<span class="time-info">' + mItem.createTime + '</span>');
                         if (!mItem.messageExt) {
-                            _html.push('<a id="' + messageExt.msgId + '" onclick="replyDiscuss(this);">回复</a>');
+                            _html.push('<a id="' + mItem.msgId + '" onclick="replyDiscuss(this);">回复</a>');
                         }
                         _html.push('<p>' + mItem.msgContent + '</p>');
                         _html.push('</li>');

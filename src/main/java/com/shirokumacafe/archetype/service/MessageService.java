@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ *  消息管理，答疑和讨论
  * @since 2018/4/8
  */
 @Service

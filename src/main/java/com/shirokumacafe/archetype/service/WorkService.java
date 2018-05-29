@@ -94,8 +94,10 @@ public class WorkService {
      * @return
      */
     public Page<WorkExt> listExtAll(Page<WorkExt> page) {
+        Work work = new Work();
+        work.setClzssId(sessionUsers.getStudent().getClzssId());
         com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
-        List<WorkExt> workList = workMapper.selectByExtParams(new Work());
+        List<WorkExt> workList = workMapper.selectByExtParams(work);
         page.setRows(workList);
         page.setResults((int) pageHelper.getTotal());
         return page;

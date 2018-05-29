@@ -15,6 +15,10 @@ public class Work {
 
     private String wWorkRequirement;
 
+    // 班级信息
+    private String grade;
+    private String clzss;
+
     public Integer getwId() {
         return wId;
     }
@@ -61,5 +65,21 @@ public class Work {
 
     public void setwWorkRequirement(String wWorkRequirement) {
         this.wWorkRequirement = wWorkRequirement == null ? null : wWorkRequirement.trim();
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getClzss() {
+        return clzss;
+    }
+
+    public void setClzss(String clzss) {
+        this.clzss = clzss;
     }
 }

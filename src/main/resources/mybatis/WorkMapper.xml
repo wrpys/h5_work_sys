@@ -8,6 +8,8 @@
     <result column="w_work_name" jdbcType="VARCHAR" property="wWorkName" />
     <result column="w_add_time" jdbcType="TIMESTAMP" property="wAddTime" />
     <result column="w_work_requirement" jdbcType="VARCHAR" property="wWorkRequirement" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="clzss" jdbcType="VARCHAR" property="clzss" />
   </resultMap>
   <sql id="Base_Column_List">
     w_id, user_tch_id, clzss_id, w_work_name, w_add_time, w_work_requirement
@@ -21,8 +23,9 @@
   
   <select id="selectByParams" resultMap="BaseResultMap">
 	select
-		<include refid="Base_Column_List" />
+        t.w_id, t.user_tch_id, t.clzss_id, t.w_work_name, t.w_add_time, t.w_work_requirement, t2.grade, t2.clzss
 		from t_work t
+        LEFT JOIN t_clzss t2 on t.clzss_id = t2.id
 		<where>
 			<if test="wWorkName!=null and wWorkName!=''">
 				and t.w_work_name like CONCAT('%',#{wWorkName},'%')
@@ -45,6 +48,9 @@
     <where>
       <if test="wId!=null">
         t.w_id=#{wId}
+      </if>
+      <if test="clzssId!=null">
+        t.clzss_id=#{clzssId}
       </if>
     </where>
     order by t.w_add_time desc

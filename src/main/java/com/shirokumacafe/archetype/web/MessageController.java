@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 消息管理，后台所有消息相关的入口：答疑和讨论
  * @since 2018/4/8
  */
 @Controller
